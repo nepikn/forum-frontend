@@ -1,0 +1,17 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "init": "git init && npm i",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "prettier-plugin-tailwindcss": "latest",
+    "vitawind": "latest",
+    "vite": "latest"
+  }
+}

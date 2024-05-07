@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./src/main.js"></script>
+    <title></title>
+  </head>
+
+  <body>
+    <div
+      id="app"
+      class="flex h-screen flex-col items-center justify-between py-8 text-center"
+    ></div>
+  </body>
+
+  <template class="comment">
+    <article class="comment">
+      <figure>
+        <figcaption class="commentator"></figcaption>
+      </figure>
+      <p class="content"></p>
+
+      <ul class="userMenu">
+        <li>
+          <form action="./handler/comment_edit.php" method="post">
+            <label for="commentEdit">Edit</label>
+            <input type="text" name="content" id="commentEdit" />
+            <input
+              type="hidden"
+              name="commentId"
+              value="<?= $comment['id'] ?>"
+            />
+            <button>Save</button>
+          </form>
+        </li>
+        <li>
+          <form action="./handler/comment_del.php" method="post">
+            <button>Delete</button>
+            <input
+              type="hidden"
+              name="commentId"
+              value="<?= $comment['id'] ?>"
+            />
+          </form>
+        </li>
+      </ul>
+    </article>
+  </template>
+</html>
