@@ -1,5 +1,6 @@
 import "./index.css";
-import Comments from "./ui/comments";
+import Comments from "./components/comments";
+import Nav from "./components/nav";
 
 const appTitle = import.meta.env.VITE_GITHUB_REPO.split("-")
   .map((s) => s[0].toUpperCase() + s.slice(1))
@@ -7,4 +8,6 @@ const appTitle = import.meta.env.VITE_GITHUB_REPO.split("-")
 const app = document.querySelector("#app");
 
 document.querySelector("title").innerText = appTitle;
-app.append(await Comments(document.querySelector("template.comment"), 0, 1));
+
+app.append(await Nav());
+app.append(await Comments(0, 1));

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
     <title></title>
   </head>
 
@@ -15,13 +15,27 @@
     ></div>
   </body>
 
+  <template class="nav">
+    <nav>
+      <div data-user="false">
+        <a href="auth.php">sign in or create account</a>
+      </div>
+      <div data-user="true">
+        <button class="logOut">Log out</button>
+        <form class="editName">
+          <input type="text" name="name" class="border" />
+          <button>Edit Name</button>
+        </form>
+      </div>
+    </nav>
+  </template>
+
   <template class="comment">
     <article class="comment">
       <figure>
         <figcaption class="commentator"></figcaption>
       </figure>
       <p class="content"></p>
-
       <ul class="userMenu">
         <li>
           <form action="./handler/comment_edit.php" method="post">
@@ -47,5 +61,17 @@
         </li>
       </ul>
     </article>
+  </template>
+
+  <template>
+    <section>
+      <figure>
+        <figcaption class="userName"></figcaption>
+      </figure>
+      <form action="./handler/comment_add.php" method="post">
+        <textarea required name="content" id="" cols="30" rows="10"></textarea>
+        <button>comment</button>
+      </form>
+    </section>
   </template>
 </html>
