@@ -22,21 +22,13 @@ export async function reqApiJson(path, options = {}) {
     options
   );
 
+  const res = await fetch(req);
+  const json = res.json();
+
   // debugger;
-  // for (const name of Object.keys(options)) {
-  //   const option = options[name];
+  if (!res.ok) {
+    throw new Error(await json);
+  }
 
-  //   switch (name) {
-  //     case "queries":
-  //       query = ;
-  //       break;
-
-  //     default:
-  //       reqInit[name] = option;
-  //       console.error("invalid option");
-  //       break;
-  //   }
-  // }
-
-  return (await fetch(req)).json();
+  return json;
 }

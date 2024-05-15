@@ -1,5 +1,5 @@
 import { getTemplate } from "../util/component";
-import { reqApiJson } from "../util/fetch";
+import { reqApiJson } from "../util/req";
 
 /**
  * @param {HTMLTemplateElement} template
