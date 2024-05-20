@@ -7,7 +7,7 @@ const appTitle = import.meta.env.VITE_GITHUB_REPO.split("-")
   .join(" ");
 const app = document.querySelector("#app");
 
-document.querySelector("title").innerText = appTitle;
+document.querySelector("title").textContent = appTitle;
 
 app.append(await Nav());
 app.append(await Comments(0, 1));

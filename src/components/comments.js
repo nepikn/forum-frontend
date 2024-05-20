@@ -1,5 +1,5 @@
-import { getTemplate } from "../util/component";
-import { reqApiJson } from "../util/req";
+import { getDeepCloned } from "../util/component";
+import { reqApi } from "../util/req";
 
 /**
  * @param {HTMLTemplateElement} template
@@ -13,11 +13,10 @@ export default async function Comments(curUserId, page, commentPerPage = 5) {
 
   section.append(
     ...comments.map((comment) => {
-      /** @type {DocumentFragment} */
-      const nextCard = getTemplate(".comment").content.cloneNode(true);
+      const nextCard = getDeepCloned(".comment");
 
-      nextCard.querySelector(".commentator").innerText = comment.commentator;
-      nextCard.querySelector(".content").innerText = comment.content;
+      nextCard.querySelector(".commentator").textContent = comment.commentator;
+      nextCard.querySelector(".content").textContent = comment.content;
 
       return nextCard;
     })
@@ -27,5 +26,5 @@ export default async function Comments(curUserId, page, commentPerPage = 5) {
 }
 
 export async function getComments(page, commentPerPage) {
-  return reqApiJson("/comment", { queries: { page, commentPerPage } });
+  return reqApi("/comment", { queries: { page, commentPerPage } });
 }

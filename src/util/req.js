@@ -3,7 +3,7 @@
  * @param {RequestInit & { queries: {} }} options
  * @returns
  */
-export async function reqApiJson(path, options = {}) {
+export async function reqApi(path, options = {}) {
   const query = ((queries) => {
     return queries
       ? `?${Object.entries(queries).reduce(

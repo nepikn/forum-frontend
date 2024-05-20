@@ -3,33 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./main.js"></script>
     <title>Auth</title>
   </head>
   <body>
-    <form class="auth">
-      <label for="name">name</label>
+    <div id="app">
+      <form id="auth">
+        <fieldset>
+          <label for="name">name</label>
+        </fieldset>
+        <button>submit</button>
+      </form>
+    </div>
 
-      <button>submit</button>
-    </form>
+    <template data-userName="false">
+      <input type="text" name="name" id="name" required />
+    </template>
+    <template data-userName="true">
+      <input type="text" name="name" id="name" value="" readonly />
+      <form id="userSwitch">
+        <button form="userSwitch">Switch User</button>
+      </form>
 
-    <template>
-      <fieldset data-userName="false">
-        <input type="text" name="name" required />
-      </fieldset>
+      <p class="signUp">please create your password</p>
+      <p class="signIn">signing in ... please enter your password</p>
+      <p class="wrongPasswd">wrong password ... please retry</p>
 
-      <fieldset data-userName="true">
-        <input type="text" name="name" id="name" value="" readonly />
-        <form id="userSwitch">
-          <button form="userSwitch">Switch User</button>
-        </form>
-
-        <p class="signUp">please create your password</p>
-        <p class="signIn">signing in ... please enter your password</p>
-        <p class="wrongPasswd">wrong password ... please retry</p>
-
-        <label for="passwd">password</label>
-        <input type="password" name="passwd" id="passwd" required />
-      </fieldset>
+      <label for="passwd">password</label>
+      <input type="password" name="passwd" id="passwd" required />
     </template>
   </body>
 </html>
