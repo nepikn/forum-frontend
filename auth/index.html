@@ -17,7 +17,7 @@
     </div>
 
     <template data-userName="false">
-      <input type="text" name="name" id="name" required />
+      <input type="text" name="name" id="name" required autofocus />
     </template>
     <template data-userName="true">
       <input type="text" name="name" id="name" value="" readonly />
@@ -25,9 +25,9 @@
         <button form="switch">Switch User</button>
       </form>
 
-      <p class="signUp">please create your password</p>
-      <p class="signIn">signing in ... please enter your password</p>
-      <p class="wrongPasswd">wrong password ... please retry</p>
+      <p data-signInState="false">please create your password</p>
+      <p data-signInState="true">signing in ... please enter your password</p>
+      <p data-signInState="err">wrong password ... please retry</p>
 
       <label for="passwd">password</label>
       <input type="password" name="passwd" id="passwd" required />

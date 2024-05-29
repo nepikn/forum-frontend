@@ -8,6 +8,10 @@ export default class User {
   /** @type {RequestInit & {queries: {}}} */
   static options = { credentials: "include" };
 
+  /**
+   * @param {RequestInit & { queries: {} }} options
+   * @returns
+   */
   static req(path = "", options) {
     return reqApi(`/user${path}`, { ...User.options, ...options });
   }
@@ -16,8 +20,8 @@ export default class User {
     return User.req("", { method: "DELETE" });
   }
 
-  static getName() {
-    return User.req("/name");
+  static get(prop, conds = {}) {
+    return User.req(prop && `/${prop}`, { queries: conds });
   }
 
   /**
