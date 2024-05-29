@@ -1,14 +1,19 @@
 import User from "../api/user";
 
-export function handleFormSubmit(formId, submitHandler, formRoot = document) {
-  formRoot
-    .querySelector(`form#${formId}`)
-    .addEventListener("submit", async (e) => {
-      e.preventDefault();
+export function handleFormSubmit(
+  formOrFormId,
+  submitHandler,
+  formRoot = document
+) {
+  (formOrFormId instanceof HTMLFormElement
+    ? formOrFormId
+    : formRoot.querySelector(`form#${formOrFormId}`)
+  ).addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const res = await submitHandler(e.target);
-      // debugger;
+    const res = await submitHandler(e.target);
+    // debugger;
 
-      window.location.reload();
-    });
+    window.location.reload();
+  });
 }
