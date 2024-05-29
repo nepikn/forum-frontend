@@ -11,11 +11,15 @@ export function getTemplate(selector) {
  * @param {string} datasetValue
  * @returns {DocumentFragment}
  */
-export const getDeepCloned = (selectorOrDatasetName, datasetValue) => {
+export function Fragment(selectorStrOrObj) {
   const selector =
-    datasetValue !== undefined
-      ? `[data-${selectorOrDatasetName}=${datasetValue}]`
-      : selectorOrDatasetName;
+    typeof selectorStrOrObj == "object"
+      ? Object.entries(selectorStrOrObj).reduce(
+          (prevSelector, [name, value]) =>
+            `${prevSelector}[data-${name}=${value}]`,
+          ""
+        )
+      : selectorStrOrObj;
   // debugger;
   return getTemplate(selector).content.cloneNode(true);
-};
+}

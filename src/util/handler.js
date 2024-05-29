@@ -1,9 +1,14 @@
 import User from "../api/user";
 
-export async function handleFormSubmit(cb, e) {
-  e.preventDefault();
+export function handleFormSubmit(formId, submitHandler, formRoot = document) {
+  formRoot
+    .querySelector(`form#${formId}`)
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  const res = await cb(this);
-  // debugger;
-  window.location.reload();
+      const res = await submitHandler(e.target);
+      // debugger;
+
+      window.location.reload();
+    });
 }
