@@ -1,5 +1,3 @@
-import User from "../api/user";
-
 export function handleFormSubmit(
   formOrFormId,
   submitHandler,

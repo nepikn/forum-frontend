@@ -9,7 +9,7 @@ await render();
 
 async function render() {
   const name = await user.get("name");
-  const authState = await user.get("authState", { name });
+  const authState = await user.get("authState");
   const content = Fragment({ userName: !!name });
 
   if (name) {
@@ -30,8 +30,11 @@ async function render() {
     authForm,
     !name
       ? () => user.set("name", authForm)
-      : authState == "false"
+      : authState == "signUp"
         ? user.add
-        : user.set
+        : () =>
+            user.set("id", null, {
+              passwd: authForm.elements.namedItem("passwd").value,
+            })
   );
 }

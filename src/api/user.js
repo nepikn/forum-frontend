@@ -20,8 +20,8 @@ export default class User {
     return;
   }
 
-  async get(prop, conds = {}) {
-    const res = await User.req({ path: prop && `/${prop}`, queries: conds });
+  async get(prop, queries = {}) {
+    const res = await User.req({ path: prop && `/${prop}`, queries });
 
     if (prop != "authState") {
       return res;
@@ -40,7 +40,7 @@ export default class User {
   /**
    * @param {null|string|HTMLFormElement} valueOrForm
    */
-  async set(key, valueOrForm, conds = {}) {
+  async set(key, valueOrForm, queries = {}) {
     const value =
       valueOrForm instanceof HTMLFormElement
         ? valueOrForm.elements.namedItem(key).value
@@ -49,7 +49,7 @@ export default class User {
     const res = await User.req({
       path: `/${key}`,
       method: "PUT",
-      queries: { value },
+      queries: { value, ...queries },
     });
 
     if (res != value) {
