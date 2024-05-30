@@ -1,55 +1,67 @@
 import { reqApi } from "../util/req";
 
 export default class User {
-  // constructor() {
-  //   this.base = "/user";
-  //   // Object.assign(this, reqApi("/user"));
-  // }
-  /** @type {RequestInit & {queries: {}}} */
-  static options = { credentials: "include" };
+  constructor(render) {
+    this.render = render;
+  }
 
   /**
    * @param {RequestInit & { queries: {}, path }} options
-   * @returns
    */
   static req(options) {
     return reqApi(`/user${options.path ?? ""}`, {
-      ...User.options,
+      credentials: "include",
       ...options,
     });
   }
 
-  static add(form) {
+  add(form) {
     // todo
     return;
   }
 
-  static get(prop, conds = {}) {
-    return User.req({ path: prop && `/${prop}`, queries: conds });
-  }
+  async get(prop, conds = {}) {
+    const res = await User.req({ path: prop && `/${prop}`, queries: conds });
 
-  static set(prop, conds = {}) {
-    // todo
-    return;
+    if (prop != "authState") {
+      return res;
+    }
+
+    switch (res) {
+      case true:
+        return "signIn";
+      case false:
+        return "signUp";
+      default:
+        return res;
+    }
   }
 
   /**
    * @param {null|string|HTMLFormElement} valueOrForm
    */
-  static setName(valueOrForm) {
-    const name =
+  async set(key, valueOrForm, conds = {}) {
+    const value =
       valueOrForm instanceof HTMLFormElement
-        ? valueOrForm.elements.namedItem("name").value
+        ? valueOrForm.elements.namedItem(key).value
         : valueOrForm;
 
-    return User.req({
-      path: "/name",
+    const res = await User.req({
+      path: `/${key}`,
       method: "PUT",
-      queries: { value: name },
+      queries: { value },
     });
+
+    if (res != value) {
+      throw new Error("");
+    }
+
+    this.render();
   }
 
-  static delete() {
-    return User.req({ method: "DELETE" });
-  }
+  delete = async () => {
+    const res = await User.req({ method: "DELETE" });
+
+    this.render();
+  };
 }

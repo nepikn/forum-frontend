@@ -13,7 +13,5 @@ export function handleFormSubmit(
 
     const res = await submitHandler(e.target);
     // debugger;
-
-    window.location.reload();
   });
 }

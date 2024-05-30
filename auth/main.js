@@ -2,31 +2,36 @@ import User from "../src/api/user";
 import { Fragment } from "../src/util/component";
 import { handleFormSubmit } from "../src/util/handler";
 
-// const user = new User();
 const authForm = document.querySelector("#auth");
-const name = await User.get("name");
-const signInState = (await User.get("signInState", { name })).toString();
+const user = new User(render);
 
-authForm.querySelector(".main").append(
-  await (async () => {
-    const content = Fragment({ userName: !!name });
+await render();
 
-    if (!name) {
-      handleFormSubmit("auth", User.setName);
-      return content;
-    }
+async function render() {
+  const name = await user.get("name");
+  const authState = await user.get("authState", { name });
+  const content = Fragment({ userName: !!name });
 
-    handleFormSubmit("switch", User.delete, content);
+  if (name) {
+    handleFormSubmit("switch", user.delete, content);
 
     content.querySelector("#name").value = name;
-    content.querySelectorAll("[data-signInState]").forEach((child) => {
-      if (child.dataset.signinstate != signInState) {
+    content.querySelectorAll("[data-authState]").forEach((child) => {
+      if (child.dataset.authstate != authState) {
         content.removeChild(child);
       }
-      // debugger;
     });
+  }
+  // debugger;
 
-    return content;
-  })()
-);
-handleFormSubmit(authForm, signInState == "false" ? User.add : User.set);
+  authForm.querySelector(".main").replaceChildren(content);
+  authForm.querySelector("[autofocus]")?.focus();
+  handleFormSubmit(
+    authForm,
+    !name
+      ? () => user.set("name", authForm)
+      : authState == "false"
+        ? user.add
+        : user.set
+  );
+}
