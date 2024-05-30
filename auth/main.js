@@ -2,8 +2,13 @@ import User from "../src/api/user";
 import { Fragment } from "../src/util/component";
 import { handleFormSubmit } from "../src/util/handler";
 
-const authForm = document.querySelector("#auth");
 const user = new User(render);
+const userId = await user.get("id");
+const authForm = document.querySelector("#auth");
+
+if (userId != null) {
+  window.location.replace("/");
+}
 
 await render();
 
@@ -30,11 +35,12 @@ async function render() {
     authForm,
     !name
       ? () => user.set("name", authForm)
-      : authState == "signUp"
-        ? user.add
-        : () =>
-            user.set("id", null, {
-              passwd: authForm.elements.namedItem("passwd").value,
-            })
+      : () => {
+          const passwd = authForm.elements.namedItem("passwd").value;
+
+          return authState == "signUp"
+            ? user.add({ passwd })
+            : user.set(null, null, { passwd });
+        }
   );
 }

@@ -1,11 +1,11 @@
-import { getDeepCloned } from "../util/component";
+import { Fragment } from "../util/component";
 import { reqApi } from "../util/req";
 
 /**
  * @param {HTMLTemplateElement} template
  */
 export default async function Nav() {
-  const nav = getDeepCloned(".nav");
+  const nav = Fragment(".nav");
   const userName = await reqApi("/user/name", { credentials: "include" });
 
   nav.querySelector(".userName").textContent = userName;

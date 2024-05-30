@@ -15,15 +15,16 @@ export default class User {
     });
   }
 
-  add(form) {
-    // todo
-    return;
-  }
+  add = async (queries) => {
+    const res = await User.req({ method: "POST", queries });
 
-  async get(prop, queries = {}) {
-    const res = await User.req({ path: prop && `/${prop}`, queries });
+    this.render();
+  };
 
-    if (prop != "authState") {
+  async get(key, queries = {}) {
+    const res = await User.req({ path: key && `/${key}`, queries });
+
+    if (key != "authState") {
       return res;
     }
 
@@ -47,7 +48,7 @@ export default class User {
         : valueOrForm;
 
     const res = await User.req({
-      path: `/${key}`,
+      path: key && `/${key}`,
       method: "PUT",
       queries: { value, ...queries },
     });

@@ -1,4 +1,4 @@
-import { getDeepCloned } from "../util/component";
+import { Fragment } from "../util/component";
 import { reqApi } from "../util/req";
 
 /**
@@ -13,7 +13,7 @@ export default async function Comments(curUserId, page, commentPerPage = 5) {
 
   section.append(
     ...comments.map((comment) => {
-      const nextCard = getDeepCloned(".comment");
+      const nextCard = Fragment(".comment");
 
       nextCard.querySelector(".commentator").textContent = comment.commentator;
       nextCard.querySelector(".content").textContent = comment.content;
