@@ -1,15 +1,10 @@
-export function handleFormSubmit(
-  formOrFormId,
-  submitHandler,
-  formRoot = document
-) {
+export function addSubmitHandler(formOrFormId, submitHandler) {
   (formOrFormId instanceof HTMLFormElement
     ? formOrFormId
-    : formRoot.querySelector(`form#${formOrFormId}`)
+    : (this ?? document).querySelector(`form#${formOrFormId}`)
   ).addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const res = await submitHandler(e.target);
-    // debugger;
   });
 }

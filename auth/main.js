@@ -1,24 +1,23 @@
 import User from "../src/api/user";
 import { Fragment } from "../src/util/component";
-import { handleFormSubmit } from "../src/util/handler";
+import { addSubmitHandler } from "../src/util/handler";
 
 const user = new User(render);
-const userId = await user.get("id");
 const authForm = document.querySelector("#auth");
-
-if (userId != null) {
-  window.location.replace("/");
-}
 
 await render();
 
 async function render() {
+  if ((await user.get("id")) != null) {
+    window.location.replace("/");
+  }
+
   const name = await user.get("name");
   const authState = await user.get("authState");
   const content = Fragment({ userName: !!name });
 
   if (name) {
-    handleFormSubmit("switch", user.delete, content);
+    addSubmitHandler.call(content, "switch", user.logOut);
 
     content.querySelector("#name").value = name;
     content.querySelectorAll("[data-authState]").forEach((child) => {
@@ -31,7 +30,7 @@ async function render() {
 
   authForm.querySelector(".main").replaceChildren(content);
   authForm.querySelector("[autofocus]")?.focus();
-  handleFormSubmit(
+  addSubmitHandler(
     authForm,
     !name
       ? () => user.set("name", authForm)
@@ -39,8 +38,8 @@ async function render() {
           const passwd = authForm.elements.namedItem("passwd").value;
 
           return authState == "signUp"
-            ? user.add({ passwd })
-            : user.set(null, null, { passwd });
+            ? user.signUp(passwd)
+            : user.signIn(passwd);
         }
   );
 }

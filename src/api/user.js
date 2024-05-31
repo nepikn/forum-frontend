@@ -2,7 +2,18 @@ import { reqApi } from "../util/req";
 
 export default class User {
   constructor(render) {
-    this.render = render;
+    // this.render = render;
+    return new Proxy(this, {
+      get(target, p, receiver) {
+        return !["get"].includes(p)
+          ? async (...args) => {
+              const res = await target[p](...args);
+              // debugger;
+              render();
+            }
+          : Reflect.get(...arguments);
+      },
+    });
   }
 
   /**
@@ -15,10 +26,8 @@ export default class User {
     });
   }
 
-  add = async (queries) => {
-    const res = await User.req({ method: "POST", queries });
-
-    this.render();
+  signUp = async (passwd) => {
+    return (res = await User.req({ method: "POST", queries: { passwd } }));
   };
 
   async get(key, queries = {}) {
@@ -57,12 +66,18 @@ export default class User {
       throw new Error("");
     }
 
-    this.render();
+    return res;
+  }
+
+  async signIn(passwd) {
+    return User.req({ method: "PUT", queries: { passwd } });
   }
 
   delete = async () => {
-    const res = await User.req({ method: "DELETE" });
+    return User.req({ method: "DELETE" });
+  };
 
-    this.render();
+  logOut = async () => {
+    return User.req({ method: "DELETE", path: "/session" });
   };
 }

@@ -1,13 +1,16 @@
 import "./index.css";
 import Comments from "./components/comments";
 import Nav from "./components/nav";
+import { replaceTitle } from "./util/page";
+import User from "./api/user";
 
-const appTitle = import.meta.env.VITE_GITHUB_REPO.split("-")
-  .map((s) => s[0].toUpperCase() + s.slice(1))
-  .join(" ");
 const app = document.querySelector("#app");
+const user = new User(render);
 
-document.querySelector("title").textContent = appTitle;
+replaceTitle(app, import.meta.env.VITE_GITHUB_REPO);
+await render();
 
-app.append(await Nav());
-app.append(await Comments(0, 1));
+async function render() {
+  app.replaceChildren(await Nav({ user }));
+  app.append(await Comments(0, 1));
+}

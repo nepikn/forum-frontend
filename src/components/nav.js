@@ -1,26 +1,17 @@
 import { Fragment } from "../util/component";
-import { reqApi } from "../util/req";
+import { addSubmitHandler } from "../util/handler";
 
-/**
- * @param {HTMLTemplateElement} template
- */
-export default async function Nav() {
+export default async function Nav({ user }) {
   const nav = Fragment(".nav");
-  const userName = await reqApi("/user/name", { credentials: "include" });
+  const userName = await user.get("name");
 
   nav.querySelector(".userName").textContent = userName;
   if (userName === null) {
     nav.querySelector("[data-user=true]").remove();
   } else {
     nav.querySelector("[data-user=false]").remove();
-    nav.querySelector(".logOut").onclick = (e) => {
-      reqApi("/user/session", { method: "DELETE" });
-    };
-    nav.querySelector(".editName").onSubmit = (e) => {
-      e.preventDefault();
-
-      reqApi("/user/name", { method: "PUT" });
-    };
+    nav.querySelector(".logout").onclick = user.logOut;
+    addSubmitHandler.call(nav, "editName", (form) => user.set("name", form));
   }
 
   return nav;
