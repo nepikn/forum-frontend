@@ -1,5 +1,5 @@
 import { Fragment } from "../util/component";
-import { addSubmitHandler } from "../util/handler";
+import { addSubmitHandler } from "../util/form";
 
 export default async function Nav({ user }) {
   const nav = Fragment(".nav");

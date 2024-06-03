@@ -43,8 +43,8 @@ export default class User extends Handler {
       queries: { value, ...queries },
     });
 
-    if (res != value) {
-      throw new Error("");
+    if (res != true && res != value) {
+      throw new Error(`server: ${res}`);
     }
 
     return res;

@@ -1,6 +1,6 @@
 import User from "../src/api/user";
 import { Fragment } from "../src/util/component";
-import { addSubmitHandler } from "../src/util/handler";
+import { addSubmitHandler } from "../src/util/form";
 
 const user = new User(render);
 const authForm = document.querySelector("#auth");
@@ -26,20 +26,20 @@ async function render() {
       }
     });
   }
-  // debugger;
 
-  authForm.querySelector(".main").replaceChildren(content);
-  authForm.querySelector("[autofocus]")?.focus();
   addSubmitHandler(
     authForm,
     !name
-      ? () => user.set("name", authForm)
-      : () => {
-          const passwd = authForm.elements.namedItem("passwd").value;
+      ? (form) => user.set("name", form)
+      : (form) => {
+          const passwd = form.elements.namedItem("passwd").value;
 
           return authState == "signUp"
             ? user.signUp(passwd)
             : user.signIn(passwd);
         }
   );
+
+  authForm.querySelector(".main").replaceChildren(content);
+  authForm.querySelector("[autofocus]")?.focus();
 }
