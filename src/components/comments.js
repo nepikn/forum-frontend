@@ -1,5 +1,5 @@
 import { Fragment } from "../util/component";
-import { reqApi } from "../util/req";
+import { reqApi } from "../util/api";
 
 /**
  * @param {HTMLTemplateElement} template

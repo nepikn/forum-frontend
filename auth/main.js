@@ -13,7 +13,7 @@ async function render() {
   }
 
   const name = await user.get("name");
-  const authState = await user.get("authState");
+  const authState = await user.getAuthState();
   const content = Fragment({ userName: !!name });
 
   if (name) {

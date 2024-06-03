@@ -1,50 +1,32 @@
-import { reqApi } from "../util/req";
+import { Handler } from "../util/api";
 
-export default class User {
+export default class User extends Handler {
   constructor(render) {
-    // this.render = render;
-    return new Proxy(this, {
-      get(target, p, receiver) {
-        return !["get"].includes(p)
-          ? async (...args) => {
-              const res = await target[p](...args);
-              // debugger;
-              render();
-            }
-          : Reflect.get(...arguments);
-      },
-    });
+    super();
+    this.render = render;
   }
 
   /**
    * @param {RequestInit & { queries: {}, path }} options
    */
-  static req(options) {
-    return reqApi(`/user${options.path ?? ""}`, {
+  handleReq(path, options) {
+    return super.handleReq(path, this.render, {
       credentials: "include",
       ...options,
     });
   }
 
   signUp = async (passwd) => {
-    return (res = await User.req({ method: "POST", queries: { passwd } }));
+    return this.handleReq("/user", {
+      method: "POST",
+      queries: { passwd },
+    });
   };
 
   async get(key, queries = {}) {
-    const res = await User.req({ path: key && `/${key}`, queries });
-
-    if (key != "authState") {
-      return res;
-    }
-
-    switch (res) {
-      case true:
-        return "signIn";
-      case false:
-        return "signUp";
-      default:
-        return res;
-    }
+    return this.handleReq(`/user${key && `/${key}`}`, {
+      queries,
+    });
   }
 
   /**
@@ -56,8 +38,7 @@ export default class User {
         ? valueOrForm.elements.namedItem(key).value
         : valueOrForm;
 
-    const res = await User.req({
-      path: key && `/${key}`,
+    const res = await this.handleReq(`/user/${key}`, {
       method: "PUT",
       queries: { value, ...queries },
     });
@@ -70,14 +51,14 @@ export default class User {
   }
 
   async signIn(passwd) {
-    return User.req({ method: "PUT", queries: { passwd } });
+    return this.handleReq("/session", { method: "POST", queries: { passwd } });
   }
 
-  delete = async () => {
-    return User.req({ method: "DELETE" });
+  logOut = async () => {
+    return this.handleReq("/session", { method: "DELETE" });
   };
 
-  logOut = async () => {
-    return User.req({ method: "DELETE", path: "/session" });
-  };
+  async getAuthState() {
+    return this.handleReq("/session/authState");
+  }
 }
