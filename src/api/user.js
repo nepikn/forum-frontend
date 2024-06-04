@@ -7,23 +7,32 @@ export default class User extends Handler {
   }
 
   /**
-   * @param {RequestInit & { queries: {}, path }} options
+   * @param {RequestInit & { queries: {}, path, validate }} options
    */
-  handleReq(path, options) {
-    return super.handleReq(path, this.render, {
+  async handleReq(path, options = {}) {
+    const res = await super.handleReq(path, this.render, {
       credentials: "include",
       ...options,
     });
+
+    ((validate = options.validate) => {
+      if (validate && !validate(res)) {
+        throw new Error(`server: ${res}`);
+      }
+    })();
+
+    return res;
   }
 
-  signUp = async (passwd) => {
+  signUp = (passwd) => {
     return this.handleReq("/user", {
       method: "POST",
       queries: { passwd },
+      validate: (res) => Number.parseInt(res),
     });
   };
 
-  async get(key, queries = {}) {
+  get(key, queries = {}) {
     return this.handleReq(`/user${key && `/${key}`}`, {
       queries,
     });
@@ -32,33 +41,28 @@ export default class User extends Handler {
   /**
    * @param {null|string|HTMLFormElement} valueOrForm
    */
-  async set(key, valueOrForm, queries = {}) {
+  set(key, valueOrForm, queries = {}) {
     const value =
       valueOrForm instanceof HTMLFormElement
         ? valueOrForm.elements.namedItem(key).value
         : valueOrForm;
 
-    const res = await this.handleReq(`/user/${key}`, {
+    return this.handleReq(`/user/${key}`, {
       method: "PUT",
       queries: { value, ...queries },
+      validate: (res) => res === true || res === value,
     });
-
-    if (res != true && res != value) {
-      throw new Error(`server: ${res}`);
-    }
-
-    return res;
   }
 
-  async signIn(passwd) {
+  signIn(passwd) {
     return this.handleReq("/session", { method: "POST", queries: { passwd } });
   }
 
-  logOut = async () => {
+  logOut = () => {
     return this.handleReq("/session", { method: "DELETE" });
   };
 
-  async getAuthState() {
+  getAuthState() {
     return this.handleReq("/session/authState");
   }
 }
