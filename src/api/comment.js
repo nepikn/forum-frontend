@@ -1,13 +1,18 @@
 import { Handler } from "../util/api";
 
 export default class Comment extends Handler {
+  defPath = "/comment";
+  defOptions = {
+    credentials: "include",
+  };
+
   constructor(render) {
     super();
     this.render = render;
   }
 
   /**
-   * @param {RequestInit & { queries: {}, path, validate }} options
+   * @param {import("../util/api").ReqOptions} options
    */
   handleReq(subPath, options = {}) {
     return super.handleChildReq(
@@ -21,19 +26,11 @@ export default class Comment extends Handler {
   }
 
   add(contentOrForm) {
-    const content =
-      contentOrForm instanceof HTMLFormElement
-        ? contentOrForm.elements.namedItem("content").value
-        : contentOrForm;
-
-    return this.handleReq("", {
-      method: "POST",
-      queries: { content },
-    });
+    return super.handlePost({ queries: { content: contentOrForm } });
   }
 
-  get(key = "", queries = {}) {
-    return this.handleReq(key, {
+  get(queries = {}) {
+    return this.handleReq("", {
       queries,
     });
   }
@@ -50,22 +47,7 @@ export default class Comment extends Handler {
     return this.handleReq(key, {
       method: "PUT",
       queries: { value, ...queries },
-      validate: (res) => res === true || res === value,
+      invalidate: (res) => res !== true && res !== value,
     });
-  }
-
-  signIn(passwd) {
-    return this.handleReq("/session", {
-      method: "POST",
-      queries: { passwd },
-    });
-  }
-
-  logOut = () => {
-    return this.handleReq("/session", { method: "DELETE" });
-  };
-
-  getAuthState() {
-    return this.handleReq("/session/authState");
   }
 }

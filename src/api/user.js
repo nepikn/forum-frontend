@@ -1,13 +1,18 @@
 import { Handler } from "../util/api";
 
 export default class User extends Handler {
+  defPath = "/user";
+  defOptions = {
+    credentials: "include",
+  };
+
   constructor(render) {
     super();
     this.render = render;
   }
 
   /**
-   * @param {RequestInit & { queries: {}, path, validate }} options
+   * @param {import("../util/api").ReqOptions} options
    */
   handleReq(path, options = {}) {
     return super.handleChildReq(path, this.render, {
@@ -16,12 +21,8 @@ export default class User extends Handler {
     });
   }
 
-  signUp = (passwd) => {
-    return this.handleReq("/user", {
-      method: "POST",
-      queries: { passwd },
-      validate: (res) => Number.parseInt(res),
-    });
+  signUp = (passwdOrForm) => {
+    return super.handlePost({ queries: { passwd: passwdOrForm } });
   };
 
   get(key = "", queries = {}) {
@@ -33,7 +34,7 @@ export default class User extends Handler {
   /**
    * @param {null|string|HTMLFormElement} valueOrForm
    */
-  set(key, valueOrForm, queries = {}) {
+  set(key, valueOrForm) {
     const value =
       valueOrForm instanceof HTMLFormElement
         ? valueOrForm.elements.namedItem(key).value
@@ -41,15 +42,15 @@ export default class User extends Handler {
 
     return this.handleReq(`/user/${key}`, {
       method: "PUT",
-      queries: { value, ...queries },
-      validate: (res) => res === true || res === value,
+      queries: { value },
+      invalidate: (res) => res !== true && res !== value,
     });
   }
 
-  signIn(passwd) {
-    return this.handleReq("/session", {
-      method: "POST",
-      queries: { passwd },
+  signIn(passwdOrForm) {
+    return super.handlePost({
+      path: "/session",
+      queries: { passwd: passwdOrForm },
     });
   }
 

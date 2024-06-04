@@ -17,7 +17,10 @@ async function render() {
   const userName = await user.get("name");
   const children = await Promise.all([
     Nav({ state: { userName }, handler: { user } }),
-    Comments(0, 1),
+    Comments({
+      state: { curUserId: 0, page: 1, commentPerPage: 5 },
+      handler: { comment },
+    }),
     Editor({ state: { userName }, handler: { comment } }),
   ]);
 

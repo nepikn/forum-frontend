@@ -27,17 +27,12 @@ async function render() {
     });
   }
 
-  addSubmitHandler(
-    authForm,
+  addSubmitHandler(authForm, (form) =>
     !name
-      ? (form) => user.set("name", form)
-      : (form) => {
-          const passwd = form.elements.namedItem("passwd").value;
-
-          return authState == "signUp"
-            ? user.signUp(passwd)
-            : user.signIn(passwd);
-        }
+      ? user.set("name", form)
+      : authState == "signUp"
+        ? user.signUp(form)
+        : user.signIn(form)
   );
 
   authForm.querySelector(".main").replaceChildren(content);

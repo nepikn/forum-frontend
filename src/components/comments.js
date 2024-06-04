@@ -1,14 +1,17 @@
 import { Fragment } from "../util/component";
 import { reqApi } from "../util/api";
+import Comment from "../api/comment";
 
 /**
- * @param {HTMLTemplateElement} template
- * @param {string} curUserId
- * @param {number} page
- * @param {number} countPerPage
+ * @param {{state, handler: {
+ *   comment: Comment
+ * }}} param0
  */
-export default async function Comments(curUserId, page, commentPerPage = 5) {
-  const comments = await getComments(page, commentPerPage);
+export default async function Comments({
+  state: { curUserId, page, commentPerPage },
+  handler: { comment },
+}) {
+  const comments = await comment.get({ page, commentPerPage });
   const section = document.createElement("section");
 
   section.append(
