@@ -20,6 +20,6 @@ export function Fragment(selectorStrOrObj) {
           ""
         )
       : selectorStrOrObj;
-  // debugger;
+
   return getTemplate(selector).content.cloneNode(true);
 }

@@ -2,8 +2,14 @@ export class Handler {
   /**
    * @param {RequestInit & { queries: {}, path }} options
    */
-  async handleReq(path, render, options = {}) {
+  async handleChildReq(path, render, options = {}) {
     const json = await this.req(path, options);
+
+    ((validate = options.validate) => {
+      if (validate && !validate(json)) {
+        throw new Error(`server: ${json}`);
+      }
+    })();
 
     if (options.method && options.method != "GET") render();
 
@@ -32,7 +38,6 @@ export class Handler {
     const res = await fetch(req);
     const json = res.json();
 
-    // debugger;
     if (!res.ok) {
       throw new Error(await json);
     }
@@ -46,7 +51,7 @@ export class Handler {
  * @returns
  */
 export async function reqApi(path, options = {}) {
-  const query = ((queries) => {
+  const query = ((queries = options.queries) => {
     return queries
       ? `?${Object.entries(queries).reduce(
           /** @param {URLSearchParams} searchParams */
@@ -57,7 +62,7 @@ export async function reqApi(path, options = {}) {
           new URLSearchParams()
         )}`
       : "";
-  })(options.queries);
+  })();
 
   const req = new Request(
     `${import.meta.env.VITE_API_URL}${path}${query}`,
@@ -67,7 +72,6 @@ export async function reqApi(path, options = {}) {
   const res = await fetch(req);
   const json = res.json();
 
-  // debugger;
   if (!res.ok) {
     throw new Error(await json);
   }

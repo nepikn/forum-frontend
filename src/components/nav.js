@@ -1,9 +1,8 @@
 import { Fragment } from "../util/component";
 import { addSubmitHandler } from "../util/form";
 
-export default async function Nav({ user }) {
-  const nav = Fragment(".nav");
-  const userName = await user.get("name");
+export default async function Nav({ state: { userName }, handler: { user } }) {
+  const nav = Fragment("#nav");
 
   nav.querySelector(".userName").textContent = userName;
   if (userName === null) {

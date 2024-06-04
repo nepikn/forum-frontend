@@ -1,6 +1,6 @@
 import { Handler } from "../util/api";
 
-export default class User extends Handler {
+export default class Comment extends Handler {
   constructor(render) {
     super();
     this.render = render;
@@ -9,23 +9,31 @@ export default class User extends Handler {
   /**
    * @param {RequestInit & { queries: {}, path, validate }} options
    */
-  handleReq(path, options = {}) {
-    return super.handleChildReq(path, this.render, {
-      credentials: "include",
-      ...options,
+  handleReq(subPath, options = {}) {
+    return super.handleChildReq(
+      `/comment${subPath && `/${subPath}`}`,
+      this.render,
+      {
+        credentials: "include",
+        ...options,
+      }
+    );
+  }
+
+  add(contentOrForm) {
+    const content =
+      contentOrForm instanceof HTMLFormElement
+        ? contentOrForm.elements.namedItem("content").value
+        : contentOrForm;
+
+    return this.handleReq("", {
+      method: "POST",
+      queries: { content },
     });
   }
 
-  signUp = (passwd) => {
-    return this.handleReq("/user", {
-      method: "POST",
-      queries: { passwd },
-      validate: (res) => Number.parseInt(res),
-    });
-  };
-
   get(key = "", queries = {}) {
-    return this.handleReq(`/user${key && `/${key}`}`, {
+    return this.handleReq(key, {
       queries,
     });
   }
@@ -39,7 +47,7 @@ export default class User extends Handler {
         ? valueOrForm.elements.namedItem(key).value
         : valueOrForm;
 
-    return this.handleReq(`/user/${key}`, {
+    return this.handleReq(key, {
       method: "PUT",
       queries: { value, ...queries },
       validate: (res) => res === true || res === value,

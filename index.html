@@ -15,7 +15,7 @@
     ></div>
   </body>
 
-  <template class="nav">
+  <template id="nav">
     <nav>
       <div data-user="false">
         <a href="auth/">sign in or create account</a>
@@ -24,14 +24,20 @@
         <p>Good day! <span class="userName"></span></p>
         <button class="logout">Log out</button>
         <form id="editName">
-          <input type="text" name="name" class="border" autocomplete="name" />
+          <input
+            required
+            type="text"
+            name="name"
+            class="border"
+            autocomplete="name"
+          />
           <button>Edit Name</button>
         </form>
       </div>
     </nav>
   </template>
 
-  <template class="comment">
+  <template id="comment">
     <article class="comment">
       <figure>
         <figcaption class="commentator"></figcaption>
@@ -64,13 +70,22 @@
     </article>
   </template>
 
-  <template>
+  <template id="editor">
     <section>
       <figure>
+        <picture><img src="" alt="" /></picture>
         <figcaption class="userName"></figcaption>
       </figure>
-      <form action="./handler/comment_add.php" method="post">
-        <textarea required name="content" id="" cols="30" rows="10"></textarea>
+      <form id="addComment">
+        <textarea
+          required
+          autofocus
+          name="content"
+          id=""
+          cols="30"
+          rows="10"
+          class="border"
+        ></textarea>
         <button>comment</button>
       </form>
     </section>
