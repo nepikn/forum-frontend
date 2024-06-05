@@ -11,22 +11,13 @@ export default class User extends Handler {
     this.render = render;
   }
 
-  /**
-   * @param {import("../util/api").ReqOptions} options
-   */
-  handleReq(path, options = {}) {
-    return super.handleChildReq(path, this.render, {
-      credentials: "include",
-      ...options,
-    });
-  }
-
   signUp = (passwdOrForm) => {
     return super.handlePost({ queries: { passwd: passwdOrForm } });
   };
 
   get(key = "", queries = {}) {
-    return this.handleReq(`/user${key && `/${key}`}`, {
+    return super.handleReq({
+      path: `/user${key && `/${key}`}`,
       queries,
     });
   }
@@ -34,16 +25,9 @@ export default class User extends Handler {
   /**
    * @param {null|string|HTMLFormElement} valueOrForm
    */
-  set(key, valueOrForm) {
-    const value =
-      valueOrForm instanceof HTMLFormElement
-        ? valueOrForm.elements.namedItem(key).value
-        : valueOrForm;
-
-    return this.handleReq(`/user/${key}`, {
-      method: "PUT",
-      queries: { value },
-      invalidate: (res) => res !== true && res !== value,
+  set(props) {
+    return super.handlePut({
+      queries: props,
     });
   }
 
@@ -54,11 +38,18 @@ export default class User extends Handler {
     });
   }
 
-  logOut = () => {
-    return this.handleReq("/session", { method: "DELETE" });
-  };
-
   getAuthState() {
-    return this.handleReq("/session/authState");
+    return super.handleReq({ path: "/session/authState" });
   }
+
+  setSessionName(nameOrForm) {
+    return super.handlePut({
+      path: "/session",
+      queries: { name: nameOrForm },
+    });
+  }
+
+  logOut = () => {
+    return super.handleDelete({ path: "/session" });
+  };
 }

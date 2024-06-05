@@ -2,7 +2,6 @@
  * @typedef ReqOptions
  * @type {RequestInit & {
  *  queries: Object.<string, string|HTMLFormElement>,
- *  invalidate,
  *  path
  * }}
  */
@@ -14,26 +13,42 @@ export class Handler {
 
   /** @param {ReqOptions} options */
   handlePost(options = {}) {
-    const path = options.path ?? this.defPath;
-
-    return this.handleChildReq(path, this.render, {
+    return this.handleReq({
       method: "POST",
-      invalidate: (res) =>
-        typeof res != "boolean" && isNaN(Number.parseInt(res)),
-      ...this.defOptions,
       ...options,
     });
   }
 
   /** @param {ReqOptions} options */
-  async handleChildReq(path, render, options = {}) {
-    const json = await this.req(path, options);
+  handlePut(options = {}) {
+    return this.handleReq({
+      method: "PUT",
+      ...options,
+    });
+  }
 
-    if (options.invalidate && options.invalidate(json)) {
-      throw new Error(`server: ${json}`);
-    }
+  /** @param {ReqOptions} options */
+  handleDelete(options = {}) {
+    return this.handleReq({
+      method: "DELETE",
+      ...options,
+    });
+  }
 
-    if (options.method && options.method != "GET") render();
+  /** @param {ReqOptions} options */
+  async handleReq(options = {}) {
+    const json = await this.req(options.path || this.defPath, {
+      ...this.defOptions,
+      ...options,
+    });
+
+    // if (json["successful"] === false) {
+    //   throw new Error(`server: ${json["message"]}`);
+    // }
+
+    (({ method } = options) => {
+      if (method && method != "GET") this.render();
+    })();
 
     return json;
   }
@@ -71,38 +86,4 @@ export class Handler {
     }
     return json;
   }
-}
-
-/**
- * @param {string} path
- * @param {RequestInit & { queries: {} }} options
- * @returns
- */
-export async function reqApi(path, options = {}) {
-  const query = ((queries = options.queries) => {
-    return queries
-      ? `?${Object.entries(queries).reduce(
-          /** @param {URLSearchParams} searchParams */
-          (searchParams, query) => {
-            searchParams.append(...query);
-            return searchParams;
-          },
-          new URLSearchParams()
-        )}`
-      : "";
-  })();
-
-  const req = new Request(
-    `${import.meta.env.VITE_API_URL}${path}${query}`,
-    options
-  );
-
-  const res = await fetch(req);
-  const json = res.json();
-
-  if (!res.ok) {
-    throw new Error(await json);
-  }
-
-  return json;
 }

@@ -11,43 +11,21 @@ export default class Comment extends Handler {
     this.render = render;
   }
 
-  /**
-   * @param {import("../util/api").ReqOptions} options
-   */
-  handleReq(subPath, options = {}) {
-    return super.handleChildReq(
-      `/comment${subPath && `/${subPath}`}`,
-      this.render,
-      {
-        credentials: "include",
-        ...options,
-      }
-    );
-  }
-
   add(contentOrForm) {
     return super.handlePost({ queries: { content: contentOrForm } });
   }
 
   get(queries = {}) {
-    return this.handleReq("", {
-      queries,
-    });
+    return super.handleReq({ queries });
   }
 
   /**
-   * @param {null|string|HTMLFormElement} valueOrForm
+   * @param {null|string|HTMLFormElement} contentOrForm
    */
-  set(key, valueOrForm, queries = {}) {
-    const value =
-      valueOrForm instanceof HTMLFormElement
-        ? valueOrForm.elements.namedItem(key).value
-        : valueOrForm;
-
-    return this.handleReq(key, {
-      method: "PUT",
-      queries: { value, ...queries },
-      invalidate: (res) => res !== true && res !== value,
+  edit(commentId, contentOrForm) {
+    return super.handlePut({
+      path: `${this.defPath}/${commentId}`,
+      queries: { value: contentOrForm },
     });
   }
 }

@@ -10,7 +10,7 @@ export default async function Nav({ state: { userName }, handler: { user } }) {
   } else {
     nav.querySelector("[data-user=false]").remove();
     nav.querySelector(".logout").onclick = user.logOut;
-    addSubmitHandler.call(nav, "editName", (form) => user.set("name", form));
+    addSubmitHandler.call(nav, "editName", (form) => user.set({ name: form }));
   }
 
   return nav;

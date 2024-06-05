@@ -29,7 +29,7 @@ async function render() {
 
   addSubmitHandler(authForm, (form) =>
     !name
-      ? user.set("name", form)
+      ? user.setSessionName(form)
       : authState == "signUp"
         ? user.signUp(form)
         : user.signIn(form)

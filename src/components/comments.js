@@ -1,6 +1,5 @@
-import { Fragment } from "../util/component";
-import { reqApi } from "../util/api";
 import Comment from "../api/comment";
+import { Fragment } from "../util/component";
 
 /**
  * @param {{state, handler: {
@@ -26,8 +25,4 @@ export default async function Comments({
   );
 
   return section;
-}
-
-export async function getComments(page, commentPerPage) {
-  return reqApi("/comment", { queries: { page, commentPerPage } });
 }
