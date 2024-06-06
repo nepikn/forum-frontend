@@ -21,7 +21,10 @@ async function render() {
       state: { curUserId: 0, page: 1, commentPerPage: 5 },
       handler: { comment },
     }),
-    Editor({ state: { userName }, handler: { comment } }),
+    Editor({
+      state: { userName },
+      handler: { submit: (form) => comment.add(form) },
+    }),
   ]);
 
   app.replaceChildren(...children);

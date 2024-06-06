@@ -1,6 +1,6 @@
 import Comment from "../api/comment";
 import { Fragment, setChildrenOf } from "../util/component";
-import { addSubmitHandler } from "../util/form";
+import Editor from "./editor";
 
 /**
  * @typedef comment
@@ -26,6 +26,7 @@ export default async function Comments({
       const setChildren = setChildrenOf.bind(container);
 
       container.append(Fragment("#comment"));
+      // todo: remove some menus
 
       setChildren(".commentator", "textContent", comment.commentator);
       setChildren(".content", "textContent", comment.content);
@@ -46,23 +47,26 @@ export default async function Comments({
  * @param {comment} comment
  */
 function renderEditor(container, comment) {
-  const editor = Fragment("#editor");
-  const setChildren = setChildrenOf.bind(editor);
   const prevComment = container.firstElementChild;
-  const renderNextComment = (nextContent) => {
+  const handler = new Comment((res) => renderNextComment(res));
+
+  container.replaceChildren(
+    Editor({
+      state: {
+        userName: comment.commentator,
+        val: comment.content,
+        focus: true,
+      },
+      handler: {
+        submit: (form) => handler.edit(comment.id, form),
+      },
+    })
+  );
+
+  function renderNextComment(nextContent) {
     setChildrenOf.call(prevComment, ".content", "textContent", nextContent);
 
     container.replaceChildren(prevComment);
-    container.focus();
     container.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
-  setChildren("button", "textContent", "save");
-  setChildren("[name=content]", "value", comment.content);
-  setChildren("[name=content]", "autofocus");
-  addSubmitHandler.call(editor, "editComment", (form) =>
-    new Comment(renderNextComment).edit(comment.id, form)
-  );
-
-  container.replaceChildren(editor);
+  }
 }

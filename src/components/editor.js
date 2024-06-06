@@ -1,14 +1,18 @@
-import { Fragment } from "../util/component";
+import { Fragment, setChildrenOf } from "../util/component";
 import { addSubmitHandler } from "../util/form";
 
-export default async function Editor({
-  state: { userName },
-  handler: { comment },
+export default function Editor({
+  state: { userName, val = "", buttonText = "comment", focus = false },
+  handler,
 }) {
   const editor = Fragment("#editor");
+  const setChildren = setChildrenOf.bind(editor);
 
-  editor.querySelector(".userName").textContent = userName;
-  addSubmitHandler.call(editor, "editComment", (form) => comment.add(form));
+  setChildren(".userName", "textContent", userName);
+  setChildren("button", "textContent", buttonText);
+  setChildren("[name=content]", "autofocus", focus);
+  setChildren("[name=content]", "value", val);
+  addSubmitHandler.call(editor, "editComment", handler.submit);
 
   return editor;
 }
