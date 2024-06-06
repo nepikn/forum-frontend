@@ -13,7 +13,7 @@ import Editor from "./editor";
  * }}} param0
  */
 export default async function Comments({
-  state: { curUserId, page, commentPerPage },
+  state: { userId, page, commentPerPage },
   handler: { comment },
 }) {
   /** @type {comment[]} */
@@ -26,7 +26,9 @@ export default async function Comments({
       const setChildren = setChildrenOf.bind(container);
 
       container.append(Fragment("#comment"));
-      // todo: remove some menus
+      if (userId != comment.user_id) {
+        container.querySelector(".userMenu").remove();
+      }
 
       setChildren(".commentator", "textContent", comment.commentator);
       setChildren(".content", "textContent", comment.content);

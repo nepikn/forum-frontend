@@ -14,11 +14,11 @@ replaceTitle(app, import.meta.env.VITE_GITHUB_REPO);
 await render();
 
 async function render() {
-  const userName = await user.get("name");
+  const { name: userName, id: userId } = await user.get();
   const children = await Promise.all([
     Nav({ state: { userName }, handler: { user } }),
     Comments({
-      state: { curUserId: 0, page: 1, commentPerPage: 5 },
+      state: { userId, page: 1, commentPerPage: 5 },
       handler: { comment },
     }),
     Editor({
