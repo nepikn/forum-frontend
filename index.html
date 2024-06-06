@@ -20,7 +20,7 @@
       <div data-user="false">
         <a href="auth/">sign in or create account</a>
       </div>
-      <div data-user="true">
+      <div data-user="true" class="flex gap-4">
         <p>Good day! <span class="userName"></span></p>
         <button class="logout">Log out</button>
         <form id="editName">
@@ -38,32 +38,20 @@
   </template>
 
   <template id="comment">
-    <article class="comment">
+    <article class="comment flex gap-4">
       <figure>
         <figcaption class="commentator"></figcaption>
       </figure>
       <p class="content"></p>
       <ul class="userMenu">
         <li>
-          <form action="./handler/comment_edit.php" method="post">
-            <label for="commentEdit">Edit</label>
-            <input type="text" name="content" id="commentEdit" class="border" />
-            <input
-              type="hidden"
-              name="commentId"
-              value="<?= $comment['id'] ?>"
-            />
-            <button>Save</button>
+          <form id="editComment">
+            <button type="button">Edit</label>
           </form>
         </li>
         <li>
-          <form action="./handler/comment_del.php" method="post">
+          <form id="delComment">
             <button>Delete</button>
-            <input
-              type="hidden"
-              name="commentId"
-              value="<?= $comment['id'] ?>"
-            />
           </form>
         </li>
       </ul>
@@ -76,7 +64,7 @@
         <picture><img src="" alt="" /></picture>
         <figcaption class="userName"></figcaption>
       </figure>
-      <form id="addComment">
+      <form id="editComment">
         <textarea
           required
           name="content"

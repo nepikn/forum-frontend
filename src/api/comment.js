@@ -25,7 +25,7 @@ export default class Comment extends Handler {
   edit(commentId, contentOrForm) {
     return super.handlePut({
       path: `${this.defPath}/${commentId}`,
-      queries: { value: contentOrForm },
+      queries: { content: contentOrForm },
     });
   }
 }

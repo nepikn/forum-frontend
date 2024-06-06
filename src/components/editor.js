@@ -8,7 +8,7 @@ export default async function Editor({
   const editor = Fragment("#editor");
 
   editor.querySelector(".userName").textContent = userName;
-  addSubmitHandler.call(editor, "addComment", (form) => comment.add(form));
+  addSubmitHandler.call(editor, "editComment", (form) => comment.add(form));
 
   return editor;
 }

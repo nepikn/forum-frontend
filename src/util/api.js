@@ -47,7 +47,7 @@ export class Handler {
     // }
 
     (({ method } = options) => {
-      if (method && method != "GET") this.render();
+      if (method && method != "GET") this.render(json);
     })();
 
     return json;

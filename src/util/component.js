@@ -1,9 +1,7 @@
-/**
- * @param {string} selector
- * @returns {HTMLTemplateElement}
- */
-export function getTemplate(selector) {
-  return document.querySelector(`template${selector}`);
+export function setChildrenOf(selector, key, val = true) {
+  (this ?? document).querySelectorAll(selector).forEach((elem) => {
+    elem[key] = val;
+  });
 }
 
 /**
@@ -21,5 +19,5 @@ export function Fragment(selectorStrOrObj) {
         )
       : selectorStrOrObj;
 
-  return getTemplate(selector).content.cloneNode(true);
+  return document.querySelector(`template${selector}`).content.cloneNode(true);
 }
