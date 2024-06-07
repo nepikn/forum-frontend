@@ -1,4 +1,4 @@
-export function addSubmitHandler(formOrFormId, submitHandler) {
+export function addSubmitHandlerOf(formOrFormId, submitHandler) {
   (formOrFormId instanceof HTMLFormElement
     ? formOrFormId
     : (this ?? document).querySelector(`form#${formOrFormId}`)

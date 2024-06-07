@@ -1,5 +1,6 @@
 import Comment from "../api/comment";
-import { Fragment, setChildrenOf } from "../util/component";
+import { FragmentOf, setChildrenOf } from "../util/component";
+import { addSubmitHandlerOf } from "../util/form";
 import Editor from "./editor";
 
 /**
@@ -14,34 +15,40 @@ import Editor from "./editor";
  */
 export default async function Comments({
   state: { userId, page, commentPerPage },
-  handler: { comment },
+  handler,
 }) {
   /** @type {comment[]} */
-  const comments = await comment.get({ page, commentPerPage });
+  const comments = await handler.comment.get({ page, commentPerPage });
   const list = document.createElement("ul");
 
   list.append(
-    ...comments.map((comment) => {
-      const container = document.createElement("li");
-      const setChildren = setChildrenOf.bind(container);
-
-      container.append(Fragment("#comment"));
-      if (userId != comment.user_id) {
-        container.querySelector(".userMenu").remove();
-      }
-
-      setChildren(".commentator", "textContent", comment.commentator);
-      setChildren(".content", "textContent", comment.content);
-      setChildren("[name=id]", "value", comment.id);
-      setChildren("#editComment [type=button]", "onclick", () => {
-        renderEditor(container, comment);
-      });
-
-      return container;
-    })
+    ...comments.map((comment) => CommentCard(comment, userId, handler))
   );
 
   return list;
+}
+
+function CommentCard(comment, userId, handler) {
+  const container = document.createElement("li");
+  const setChildren = setChildrenOf.bind(container);
+  const addSubmitHandler = addSubmitHandlerOf.bind(container);
+
+  container.append(FragmentOf("#comment"));
+
+  setChildren(".commentator", "textContent", comment.commentator);
+  setChildren(".content", "textContent", comment.content);
+  setChildren("[name=id]", "value", comment.id);
+
+  if (userId == comment.user_id) {
+    container.append(FragmentOf.call(container, "#userMenu"));
+
+    setChildren("#editComment button", "onclick", () => {
+      renderEditor(container, comment);
+    });
+    addSubmitHandler("delComment", () => handler.comment.delete(comment.id));
+  }
+
+  return container;
 }
 
 /**

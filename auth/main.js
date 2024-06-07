@@ -1,6 +1,6 @@
 import User from "../src/api/user";
-import { Fragment } from "../src/util/component";
-import { addSubmitHandler } from "../src/util/form";
+import { FragmentOf } from "../src/util/component";
+import { addSubmitHandlerOf } from "../src/util/form";
 
 const user = new User(render);
 const authForm = document.querySelector("#auth");
@@ -14,10 +14,10 @@ async function render() {
 
   const name = await user.get("name");
   const authState = await user.getAuthState();
-  const content = Fragment({ userName: !!name });
+  const content = FragmentOf({ userName: !!name });
 
   if (name) {
-    addSubmitHandler.call(content, "switch", user.logOut);
+    addSubmitHandlerOf.call(content, "switch", user.logOut);
 
     content.querySelector("#name").value = name;
     content.querySelectorAll("[data-authState]").forEach((child) => {
@@ -27,7 +27,7 @@ async function render() {
     });
   }
 
-  addSubmitHandler(authForm, (form) =>
+  addSubmitHandlerOf(authForm, (form) =>
     !name
       ? user.setSessionName(form)
       : authState == "signUp"

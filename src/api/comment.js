@@ -22,10 +22,16 @@ export default class Comment extends Handler {
   /**
    * @param {null|string|HTMLFormElement} contentOrForm
    */
-  edit(commentId, contentOrForm) {
+  edit(id, contentOrForm) {
     return super.handlePut({
-      path: `${this.defPath}/${commentId}`,
+      path: `${this.defPath}/${id}`,
       queries: { content: contentOrForm },
+    });
+  }
+
+  delete(id) {
+    return super.handleDelete({
+      path: `${this.defPath}/${id}`,
     });
   }
 }
