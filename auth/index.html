@@ -9,9 +9,9 @@
   <body>
     <div
       id="app"
-      class="h-screen bg-light grid place-content-center place-items-center"
+      class="h-screen text-primary bg-light grid place-content-center place-items-center"
     >
-      <div class="text-primary grid place-items-center gap-8">
+      <div class="grid place-items-center gap-8">
         <div class="grid gap-2 place-items-center">
           <h1 class="text-6xl">Sign in</h1>
           <p>or create an account</p>
@@ -39,13 +39,7 @@
     </template>
     <template data-userName="true">
       <div class="grid place-items-center gap-2">
-        <p>
-          Welcome
-          <span
-            id="name"
-            class="px-2 py-1 leading-none bg-primary text-white"
-          ></span>
-        </p>
+        <p>Welcome<span id="name" class="userName"></span></p>
         <p data-authState></p>
       </div>
       <fieldset class="grid place-items-center gap-4">

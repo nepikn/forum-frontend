@@ -21,10 +21,12 @@ async function render() {
       state: { userId, page: 1, commentPerPage: 5 },
       handler: { comment },
     }),
-    Editor({
-      state: { userName },
-      handler: { submit: (form) => comment.add(form) },
-    }),
+    userId
+      ? Editor({
+          state: { userName },
+          handler: { submit: (form) => comment.add(form) },
+        })
+      : "",
   ]);
 
   app.replaceChildren(...children);

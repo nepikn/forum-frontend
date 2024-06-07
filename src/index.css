@@ -8,14 +8,17 @@
   }
   button,
   input {
-    @apply hover:enabled:opacity-85 px-4 py-2 rounded-lg text-center;
+    @apply hover:enabled:opacity-85 px-4 py-2 rounded-sm text-center;
   }
   a {
-    @apply text-blue-500 hover:text-blue-400 hover:underline transition-all;
+    @apply text-stone-500 hover:text-stone-400;
   }
 }
 
 @layer components {
+  .userName {
+    @apply px-2 py-1 leading-none bg-primary text-white mx-2;
+  }
   .input {
     @apply p-2 rounded-lg text-center;
   }

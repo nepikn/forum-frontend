@@ -11,38 +11,42 @@
   <body>
     <div
       id="app"
-      class="flex h-screen flex-col items-center justify-between py-8 text-center"
+      class="min-h-screen text-primary bg-light grid place-items-center gap-y-8 py-8"
     ></div>
   </body>
 
   <template id="nav">
-    <nav>
-      <div data-user="false">
+    <nav class="w-full grid place-items-center">
+      <div data-user="false" class="h-12 flex items-center">
         <a href="auth/">sign in or create account</a>
       </div>
-      <div data-user="true" class="flex gap-4">
-        <p>Good day! <span class="userName"></span></p>
-        <button class="logout">Log out</button>
-        <form id="editName">
+      <div data-user="true" class="text-sm items-center grid grid-cols-2 gap-4 w-3/4 text-nowrap">
+        <p class="text-lg">Good day!<span class="userName"></span></p>
+        <button class="logout bg-accent text-white">Log out</button>
+        <form id="editName" class="grid grid-flow-col grid-cols-2 col-span-2 gap-4">
+          <button type="button" class="text-white bg-primary">Edit Name</button>
           <input
             required
             type="text"
             name="name"
-            class="border"
             autocomplete="name"
+            class="border"
+            maxlength="9"
           />
-          <button>Edit Name</button>
         </form>
       </div>
     </nav>
   </template>
 
   <template id="comment">
-    <article class="comment flex gap-4">
-      <figure>
-        <figcaption class="commentator"></figcaption>
+    <article class="rounded-sm comment grid grid-cols-[2.25rem_1fr] grid-rows-[2.25rem_1fr] gap-x-2 gap-y-1 bg-white p-4">
+      <figure class="grid grid-flow-col grid-cols-subgrid items-center col-span-2">
+        <picture class="h-full"><div class="h-full aspect-square rounded-full border"></div></picture>
+        <figcaption class="commentator px-2"></figcaption>
       </figure>
-      <p class="content"></p>
+      <div class="mx-auto border-[1px]">
+        </div>
+        <p class="content py-1"></p>
       <template id="userMenu"><ul class="userMenu">
         <li>
           <form id="editComment">
@@ -59,21 +63,14 @@
   </template>
 
   <template id="editor">
-    <section>
-      <figure>
-        <picture><img src="" alt="" /></picture>
-        <figcaption class="userName"></figcaption>
-      </figure>
-      <form id="editComment">
+    <section class="w-full grid justify-items-center">
+      <form id="editComment" class="grid bg-white w-3/4 rounded-sm">
         <textarea
           required
           name="content"
-          id=""
-          cols="30"
-          rows="10"
-          class="border"
+          class="w-full h-[25vh] p-4"
         ></textarea>
-        <button></button>
+        <button class="border-2 border-white bg-primary text-white m-1"></button>
       </form>
     </section>
   </template>

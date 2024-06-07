@@ -20,6 +20,9 @@ export default async function Comments({
   /** @type {comment[]} */
   const comments = await handler.comment.get({ page, commentPerPage });
   const list = document.createElement("ul");
+  list.style.display = "grid";
+  list.style.gap = ".5rem";
+  list.style.minWidth = "75%";
 
   list.append(
     ...comments.map((comment) => CommentCard(comment, userId, handler))
