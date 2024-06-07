@@ -7,32 +7,72 @@
     <title>Auth</title>
   </head>
   <body>
-    <div id="app">
-      <form id="auth">
-        <fieldset>
-          <div class="main">
+    <div
+      id="app"
+      class="h-screen bg-light grid place-content-center place-items-center"
+    >
+      <div class="text-primary grid place-items-center gap-8">
+        <div class="grid gap-2 place-items-center">
+          <h1 class="text-6xl">Sign in</h1>
+          <p>or create an account</p>
+        </div>
+        <form id="auth" class="grid place-items-center gap-2">
+          <div class="temp-userName grid place-items-center gap-4">
             <label for="name">name</label>
           </div>
-          <button>submit</button>
-        </fieldset>
-      </form>
+        </form>
+      </div>
     </div>
 
     <template data-userName="false">
-      <input type="text" name="name" id="name" required autofocus />
+      <input
+        id="name"
+        type="text"
+        name="name"
+        placeholder="User name"
+        maxlength="9"
+        required
+        autofocus
+        class="bg-primary text-white"
+      />
+      <button class="bg-accent w-3/4">Submit</button>
     </template>
     <template data-userName="true">
-      <input type="text" name="name" id="name" value="" readonly />
-      <form id="switch">
-        <button form="switch">Switch User</button>
-      </form>
+      <div class="grid place-items-center gap-2">
+        <p>
+          Welcome
+          <span
+            id="name"
+            class="px-2 py-1 leading-none bg-primary text-white"
+          ></span>
+        </p>
+        <p data-authState></p>
+      </div>
+      <fieldset class="grid place-items-center gap-4">
+        <div class="grid place-items-center gap-2">
+          <input type="hidden" name="name" />
+          <input
+            id="passwd"
+            type="password"
+            name="passwd"
+            placeholder="Password"
+            required
+            autofocus
+            class="bg-primary text-white w-3/4"
+          />
+          <button class="bg-accent w-3/4">Submit</button>
+        </div>
 
-      <p data-authState="signUp">please create your password</p>
-      <p data-authState="signIn">signing in ... please enter your password</p>
-      <p data-authState="err">wrong password ... please retry</p>
-
-      <label for="passwd">password</label>
-      <input type="password" name="passwd" id="passwd" required autofocus />
+        <form id="switch" class="grow flex gap-2 items-center text-sm">
+          <span class="text-nowrap">or</span>
+          <button
+            form="switch"
+            class="bg-primary text-light w-full text-nowrap"
+          >
+            Switch user
+          </button>
+        </form>
+      </fieldset>
     </template>
   </body>
 </html>

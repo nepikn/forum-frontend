@@ -2,7 +2,7 @@ import { FragmentOf, setChildrenOf } from "../util/component";
 import { addSubmitHandlerOf } from "../util/form";
 
 export default function Editor({
-  state: { userName, val = "", buttonText = "comment", focus = false },
+  state: { userName, val = "", buttonText = "Comment", focus = false },
   handler,
 }) {
   const editor = FragmentOf("#editor");
