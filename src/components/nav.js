@@ -1,8 +1,8 @@
-import { Fragment } from "../util/component";
-import { addSubmitHandler } from "../util/form";
+import { FragmentOf } from "../util/component";
+import { addSubmitHandlerOf } from "../util/form";
 
 export default async function Nav({ state: { userName }, handler: { user } }) {
-  const nav = Fragment("#nav");
+  const nav = FragmentOf("#nav");
 
   nav.querySelector(".userName").textContent = userName;
   if (userName === null) {
@@ -10,7 +10,9 @@ export default async function Nav({ state: { userName }, handler: { user } }) {
   } else {
     nav.querySelector("[data-user=false]").remove();
     nav.querySelector(".logout").onclick = user.logOut;
-    addSubmitHandler.call(nav, "editName", (form) => user.set({ name: form }));
+    addSubmitHandlerOf.call(nav, "editName", (form) =>
+      user.set({ name: form })
+    );
   }
 
   return nav;

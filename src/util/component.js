@@ -9,7 +9,7 @@ export function setChildrenOf(selector, key, val = true) {
  * @param {string} datasetValue
  * @returns {DocumentFragment}
  */
-export function Fragment(selectorStrOrObj) {
+export function FragmentOf(selectorStrOrObj) {
   const selector =
     typeof selectorStrOrObj == "object"
       ? Object.entries(selectorStrOrObj).reduce(
@@ -19,5 +19,7 @@ export function Fragment(selectorStrOrObj) {
         )
       : selectorStrOrObj;
 
-  return document.querySelector(`template${selector}`).content.cloneNode(true);
+  return (this ?? document)
+    .querySelector(`template${selector}`)
+    .content.cloneNode(true);
 }
