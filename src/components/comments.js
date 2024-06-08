@@ -37,11 +37,17 @@ export default async function Comments({
 }
 
 function CommentCard(comment, userId, handler) {
-  const container = new Component("comment");
-
-  container.setDescs(".commentator", "textContent", comment.commentator);
-  container.setDescs(".content", "textContent", comment.content);
-  container.setDescs("[name=id]", "value", comment.id);
+  const container = new Component("comment", {
+    state: {
+      textContent: {
+        commentator: comment.commentator,
+        content: comment.content,
+      },
+      value: {
+        id: comment.id,
+      },
+    },
+  });
 
   const card = container.root.firstElementChild;
 

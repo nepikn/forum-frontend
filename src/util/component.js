@@ -1,7 +1,16 @@
 /**
  * @typedef slot
  * @type {{
- *  handler: Object<string, Object<string, (target)=>>>
+ *  state: {
+ *    [key: string]: {
+ *      [selector: string]: string;
+ *    }
+ *  }
+ *  handler: {
+ *    [type: string]: {
+ *      [id: string]: (target)=>;
+ *    }
+ *  }
  * }}
  */
 export default class Component {
@@ -57,17 +66,34 @@ export default class Component {
   constructor(tempId, slot = {}) {
     this.root = Component.Fragment(tempId);
 
+    Object.entries(slot.state ?? {}).forEach(([key, vals]) => {
+      Object.entries(vals).forEach(([selector, val]) =>
+        this.setDescs(getSelector(key, selector), key, val)
+      );
+    });
+
     Object.entries(slot.handler ?? {}).forEach(([type, handlers]) => {
       Object.entries(handlers).forEach(([id, cb]) =>
-        this.callDescs(`#${id}`, "addEventListener", type, () => async (e) => {
+        this.callDescs(`#${id}`, "addEventListener", type, () => (e) => {
           if (type == "submit") {
             e.preventDefault();
           }
 
-          const res = await cb(e.target);
+          cb(e.target);
         })
       );
     });
+
+    function getSelector(key, selector) {
+      switch (key) {
+        case "textContent":
+          return `[data-${selector}]`;
+        case "value":
+          return `[name=${selector}]`;
+        default:
+          throw new Error("");
+      }
+    }
   }
 
   /**
