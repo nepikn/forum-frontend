@@ -1,5 +1,10 @@
 import Comment from "../api/comment";
-import { FragmentOf, setChildrenOf } from "../util/component";
+import Component, {
+  FragmentOf,
+  removeChildrenOf,
+  setChildrenOf,
+  swapDescByTempOf,
+} from "../util/component";
 import { addSubmitHandlerOf } from "../util/form";
 import Editor from "./editor";
 
@@ -32,26 +37,29 @@ export default async function Comments({
 }
 
 function CommentCard(comment, userId, handler) {
-  const container = document.createElement("li");
-  const setChildren = setChildrenOf.bind(container);
-  const addSubmitHandler = addSubmitHandlerOf.bind(container);
+  const container = new Component("comment");
 
-  container.append(FragmentOf("#comment"));
+  container.setDescs(".commentator", "textContent", comment.commentator);
+  container.setDescs(".content", "textContent", comment.content);
+  container.setDescs("[name=id]", "value", comment.id);
 
-  setChildren(".commentator", "textContent", comment.commentator);
-  setChildren(".content", "textContent", comment.content);
-  setChildren("[name=id]", "value", comment.id);
+  const card = container.root.firstElementChild;
 
-  if (userId == comment.user_id) {
-    container.append(FragmentOf.call(container, "#userMenu"));
+  container.replaceDescs("userMenu", {
+    render: userId == comment.user_id,
+    handler: {
+      click: {
+        renderEditor: () => {
+          renderEditor(card, comment);
+        },
+      },
+      submit: {
+        delComment: () => handler.comment.delete(comment.id),
+      },
+    },
+  });
 
-    setChildren("#editComment button", "onclick", () => {
-      renderEditor(container, comment);
-    });
-    addSubmitHandler("delComment", () => handler.comment.delete(comment.id));
-  }
-
-  return container;
+  return container.root;
 }
 
 /**
