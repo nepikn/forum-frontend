@@ -90,7 +90,12 @@ function renderEditor(container, comment) {
   );
 
   function renderNextComment(nextContent) {
-    setChildrenOf.call(prevComment, ".content", "textContent", nextContent);
+    setChildrenOf.call(
+      prevComment,
+      "[data-content]",
+      "textContent",
+      nextContent
+    );
 
     container.replaceChildren(prevComment);
     container.scrollIntoView({ behavior: "smooth", block: "center" });
