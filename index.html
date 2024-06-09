@@ -11,26 +11,26 @@
   <body>
     <div
       id="app"
-      class="min-h-screen text-primary bg-light grid place-items-center gap-y-8 py-8"
+      class="min-h-screen md:max-w-md text-primary bg-light grid gap-y-8 py-8 m-auto"
     ></div>
   </body>
 
   <template id="nav">
-    <nav class="w-full grid place-items-center">
+    <nav class="w-full grid justify-center px-8">
       <div data-user="false" class="h-12 flex items-center">
-        <a href="auth/">sign in or create account</a>
+        <a href="auth/">Sign in or create an account</a>
       </div>
       <div
         data-user="true"
-        class="text-sm items-center grid grid-cols-2 gap-4 w-3/4 text-nowrap"
+        class="text-sm items-center grid grid-cols-2 gap-4 text-nowrap"
       >
         <p class="text-lg">Good day!<span class="userName"></span></p>
-        <button class="logout bg-accent text-white">Log out</button>
+        <button class="logout success">Log out</button>
         <form
           id="editName"
           class="grid grid-flow-col grid-cols-2 col-span-2 gap-4"
         >
-          <button class="text-white bg-primary">Edit Name</button>
+          <button class="primary">Edit Name</button>
           <input
             required
             type="text"
@@ -46,46 +46,48 @@
 
   <template id="comment">
     <li>
-      <article
-        class="rounded-sm comment grid grid-cols-[2.25rem_1fr] grid-rows-[2.25rem_1fr] gap-x-2 gap-y-1 bg-white p-4"
-      >
-        <figure
-          class="grid grid-flow-col grid-cols-subgrid items-center col-span-2"
+      <article class="rounded-sm comment bg-white p-4 grid gap-3">
+        <div
+          class="grid grid-cols-[2.25rem_1fr] grid-rows-[2.25rem_1fr] gap-x-2 gap-y-1"
         >
-          <picture class="h-full"
-            ><div class="h-full aspect-square rounded-full border"></div
-          ></picture>
-          <figcaption data-commentator class="px-2"></figcaption>
-        </figure>
-        <div class="mx-auto border-[1px]"></div>
-        <p data-content class="py-1"></p>
+          <figure
+            class="grid grid-flow-col grid-cols-subgrid items-center col-span-2"
+          >
+            <picture class="h-full"
+              ><div class="h-full aspect-square rounded-full border"></div
+            ></picture>
+            <figcaption data-commentator class="px-2"></figcaption>
+          </figure>
+          <div class="mx-auto border-[1px]"></div>
+          <p data-content class="py-1 whitespace-pre-wrap"></p>
+        </div>
         <div data-for-temp="userMenu"></div>
       </article>
     </li>
   </template>
 
   <template id="userMenu">
-    <ul class="userMenu">
+    <ul class="userMenu flex gap-4">
       <li>
-        <button id="renderEditor" type="button">Edit</button>
+        <button id="renderEditor" type="button" class="primary">Edit</button>
       </li>
       <li>
         <form id="delComment">
-          <button>Delete</button>
+          <button class="success">Delete</button>
         </form>
       </li>
     </ul>
   </template>
 
   <template id="editor">
-    <section class="w-full grid justify-items-center">
-      <form id="editComment" class="grid bg-light w-3/4 rounded-sm">
+    <section class="">
+      <form id="editComment" class="grid bg-light rounded-sm">
         <textarea
           required
           name="content"
           class="w-full h-[25vh] p-4"
         ></textarea>
-        <button class="border-light bg-primary text-white m-1"></button>
+        <button class="border-light primary m-1"></button>
       </form>
     </section>
   </template>

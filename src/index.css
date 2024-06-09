@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    @apply text-[16px];
+    @apply text-[16px] bg-light;
   }
   button,
   input {
@@ -17,7 +17,13 @@
 
 @layer components {
   .userName {
-    @apply px-2 py-1 leading-none bg-primary text-white mx-2;
+    @apply px-2 py-1 leading-none primary mx-2;
+  }
+  .success {
+    @apply bg-success;
+  }
+  .primary {
+    @apply bg-primary text-white;
   }
   .input {
     @apply p-2 rounded-lg text-center;

@@ -1,11 +1,5 @@
 import Comment from "../api/comment";
-import Component, {
-  FragmentOf,
-  removeChildrenOf,
-  setChildrenOf,
-  swapDescByTempOf,
-} from "../util/component";
-import { addSubmitHandlerOf } from "../util/form";
+import Component, { setChildrenOf } from "../util/component";
 import Editor from "./editor";
 
 /**
@@ -27,7 +21,6 @@ export default async function Comments({
   const list = document.createElement("ul");
   list.style.display = "grid";
   list.style.gap = ".5rem";
-  list.style.minWidth = "75%";
 
   list.append(
     ...comments.map((comment) => CommentCard(comment, userId, handler))
@@ -79,7 +72,6 @@ function renderEditor(container, comment) {
   container.replaceChildren(
     Editor({
       state: {
-        userName: comment.commentator,
         val: comment.content,
         focus: true,
       },

@@ -9,7 +9,7 @@ export default {
   ],
   theme: {
     extend: {
-      colors: { primary: "#224957", accent: "#20DF7F", light: "#f5f5f5" },
+      colors: { primary: "#224957", success: "#20DF7F", light: "#f5f5f5" },
     },
   },
   plugins: [],
