@@ -11,7 +11,7 @@ const user = new User(render);
 const comment = new Comment(render);
 
 replaceTitle(app, import.meta.env.VITE_GITHUB_REPO);
-await render();
+(async () => await render())();
 
 async function render() {
   const { name: userName, id: userId } = await user.get();

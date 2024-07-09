@@ -6,7 +6,7 @@ import "../src/index.css";
 const user = new User(render);
 const authForm = document.querySelector("#auth");
 
-await render();
+(async () => await render())();
 
 async function render() {
   if ((await user.get("id")) != null) {
