@@ -10,7 +10,7 @@ const app = document.querySelector("#app");
 const user = new User(render);
 const comment = new Comment(render);
 
-replaceTitle(app, import.meta.env.VITE_GITHUB_REPO);
+replaceTitle(app, "forum");
 (async () => await render())();
 
 async function render() {

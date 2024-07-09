@@ -6,9 +6,7 @@
 
 ## 展示
 
-![screenshot](https://raw.githubusercontent.com/nepikn/history-note/main/src/asset/screenshot.jpg)
-
-> [Live Demo](https://nepikn.github.io/history-note/)
+![screenshot](https://raw.githubusercontent.com/nepikn/forum-frontend/main/src/asset/screenshot.jpg)
 
 ## 主要技術
 
@@ -28,6 +26,6 @@
 
 ## 相關資料
 
-- [MDN - ]()
+- []()
 
 ## 貢獻
