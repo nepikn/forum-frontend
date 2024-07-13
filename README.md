@@ -12,6 +12,19 @@
 
 -
 
+## 安裝
+
+```bash
+ssh DESTINATION
+cd /var/www/html/
+git clone git@github.com:nepikn/forum-frontend.git
+
+cd forum-frontend/
+npm install
+npm run build
+mv dist/ ../forum/
+```
+
 ## 學習內容
 
 ###
