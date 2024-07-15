@@ -10,7 +10,7 @@ const authForm = document.querySelector("#auth");
 
 async function render() {
   if ((await user.get("id")) != null) {
-    window.location.replace("/");
+    window.location.replace(import.meta.env.VITE_BASE + "/");
     return;
   }
 
