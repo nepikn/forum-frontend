@@ -72,7 +72,7 @@ function renderEditor(container, comment) {
   container.replaceChildren(
     Editor({
       state: {
-        val: comment.content,
+        val: container.querySelector("[data-content]").textContent,
         focus: true,
       },
       handler: {
