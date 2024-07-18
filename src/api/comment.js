@@ -19,6 +19,10 @@ export default class Comment extends Handler {
     return super.handleReq({ queries });
   }
 
+  getLength() {
+    return super.handleReq({ path: `${this.defPath}/length` });
+  }
+
   /**
    * @param {null|string|HTMLFormElement} contentOrForm
    */

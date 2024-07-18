@@ -17,6 +17,62 @@ export default async function Comments({
   handler,
 }) {
   /** @type {comment[]} */
+  const section = document.createElement("section");
+  const list = await List({
+    state: { userId, page, commentPerPage },
+    handler,
+  });
+  const nav = await CommentNav({
+    section,
+    state: { userId, page, commentPerPage },
+    handler,
+  });
+
+  section.append(list, nav);
+
+  return section;
+}
+
+async function CommentNav({
+  section,
+  state: { userId, page, commentPerPage },
+  handler,
+}) {
+  const nav = document.createElement("nav");
+  const prev = document.createElement("button");
+  const next = document.createElement("button");
+  const length = await handler.comment.getLength();
+
+  prev.onclick = async () =>
+    section.replaceWith(
+      await Comments({
+        state: { userId, page: Math.max(1, page - 1), commentPerPage },
+        handler,
+      })
+    );
+  next.onclick = async () =>
+    section.replaceWith(
+      await Comments({
+        state: {
+          userId,
+          page: Math.min(Math.ceil(length / commentPerPage), page + 1),
+          commentPerPage,
+        },
+        handler,
+      })
+    );
+  prev.textContent = "◄";
+  next.textContent = "►";
+
+  nav.style.width = "max-content";
+  nav.style.marginInline = "auto";
+  nav.style.marginTop = "2rem";
+  nav.append(prev, page, next);
+
+  return nav;
+}
+
+async function List({ state: { userId, page, commentPerPage }, handler }) {
   const comments = await handler.comment.get({ page, commentPerPage });
   const list = document.createElement("ul");
   list.style.display = "grid";
