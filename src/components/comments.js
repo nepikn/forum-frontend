@@ -29,6 +29,7 @@ export default async function Comments({
   });
 
   section.append(list, nav);
+  section.style.scrollMarginTop = "0";
 
   return section;
 }
@@ -42,34 +43,46 @@ async function CommentNav({
   const prev = document.createElement("button");
   const next = document.createElement("button");
   const length = await handler.comment.getLength();
+  const pageFloor = 1;
+  const pageCeil = Math.ceil(length / commentPerPage);
 
-  prev.onclick = async () =>
-    section.replaceWith(
-      await Comments({
-        state: { userId, page: Math.max(1, page - 1), commentPerPage },
-        handler,
-      })
-    );
-  next.onclick = async () =>
+  prev.onclick = () => navigate(Math.max(pageFloor, page - 1));
+  next.onclick = () => navigate(Math.min(pageCeil, page + 1));
+  prev.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    </svg>
+  `;
+  next.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+    </svg>
+  `;
+  prev.disabled = page == pageFloor;
+  next.disabled = page == pageCeil;
+
+  nav.style.width = "max-content";
+  nav.style.marginInline = "auto";
+  nav.style.marginTop = "2rem";
+  nav.style.display = "flex";
+  nav.style.alignItems = "center";
+  nav.append(prev, page, next);
+
+  return nav;
+
+  async function navigate(page) {
     section.replaceWith(
       await Comments({
         state: {
           userId,
-          page: Math.min(Math.ceil(length / commentPerPage), page + 1),
+          page,
           commentPerPage,
         },
         handler,
       })
     );
-  prev.textContent = "◄";
-  next.textContent = "►";
-
-  nav.style.width = "max-content";
-  nav.style.marginInline = "auto";
-  nav.style.marginTop = "2rem";
-  nav.append(prev, page, next);
-
-  return nav;
+    window.scrollTo(0, 0);
+  }
 }
 
 async function List({ state: { userId, page, commentPerPage }, handler }) {
