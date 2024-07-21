@@ -2,7 +2,7 @@
 
 前後端分離、部署於 AWS EC2、在 Cloudflare 註冊域名的 MPA
 
-> [後端 Readme](../../../forum-backend?tab=readme-ov-file#readme-ov-file)
+> [後端說明](https://github.com/nepikn/forum-backend?tab=readme-ov-file#readme-ov-file)
 
 - [預期功能](#預期功能)
 - [展示](#展示)
