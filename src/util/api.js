@@ -42,10 +42,6 @@ export class Handler {
       ...options,
     });
 
-    // if (json["successful"] === false) {
-    //   throw new Error(`server: ${json["message"]}`);
-    // }
-
     (({ method } = options) => {
       if (method && method != "GET") this.render(json);
     })();
