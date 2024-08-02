@@ -1,6 +1,6 @@
 import User from "../src/api/user";
 import { FragmentOf } from "../src/util/component";
-import { addSubmitHandlerOf } from "../src/util/form";
+import { handleSubmitOf } from "../src/util/form";
 import "../src/index.css";
 
 const user = new User(render);
@@ -9,16 +9,18 @@ const authForm = document.querySelector("#auth");
 (async () => await render())();
 
 async function render() {
-  if ((await user.get("id")) != null) {
+  const { id, name } = await user.get();
+
+  if (id != null) {
     window.location.replace(import.meta.env.VITE_BASE + "/");
     return;
   }
 
-  const name = await user.get("name");
-  const authState = await user.getAuthState();
   const content = FragmentOf({ userName: !!name });
 
   if (name) {
+    const authState = await user.getAuthState();
+
     content.querySelector("[name=name]").value = name;
     content.querySelector("#name").textContent = name;
     content.querySelector("[data-authState]").textContent = (() => {
@@ -34,12 +36,12 @@ async function render() {
       }
     })();
 
-    addSubmitHandlerOf.call(content, "switch", user.logOut);
-    addSubmitHandlerOf(authForm, (form) =>
+    handleSubmitOf.call(content, "switch", user.logOut);
+    handleSubmitOf(authForm, (form) =>
       authState == "signUp" ? user.signUp(form) : user.signIn(form)
     );
   } else {
-    addSubmitHandlerOf(authForm, (form) => user.setSessionName(form));
+    handleSubmitOf(authForm, (form) => user.setSessionName(form));
   }
 
   authForm.querySelector(".temp-userName").replaceChildren(content);

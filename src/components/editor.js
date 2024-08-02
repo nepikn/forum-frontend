@@ -1,5 +1,5 @@
 import { FragmentOf, setChildrenOf } from "../util/component";
-import { addSubmitHandlerOf } from "../util/form";
+import { handleSubmitOf } from "../util/form";
 
 export default function Editor({
   state: { val = "", buttonText = "Comment", focus = false },
@@ -11,7 +11,7 @@ export default function Editor({
   setChildren("button", "textContent", buttonText);
   setChildren("[name=content]", "autofocus", focus);
   setChildren("[name=content]", "value", val);
-  addSubmitHandlerOf.call(editor, "editComment", handler.submit);
+  handleSubmitOf.call(editor, "editComment", handler.submit);
 
   return editor;
 }
