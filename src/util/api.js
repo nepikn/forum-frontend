@@ -75,11 +75,15 @@ export class Handler {
     );
 
     const res = await fetch(req);
-    const json = res.json();
-
     if (!res.ok) {
-      throw new Error(await json);
+      throw new Error(await res.text());
     }
-    return json;
+
+    const contentType = res.headers.get("content-type");
+    if (contentType.includes("json")) {
+      return await res.json();
+    } else if (contentType.includes("text")) {
+      return await res.text();
+    }
   }
 }
