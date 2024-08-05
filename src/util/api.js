@@ -37,16 +37,16 @@ export class Handler {
 
   /** @param {ReqOptions} options */
   async handleReq(options = {}) {
-    const json = await this.req(options.path || this.defPath, {
+    const res = await this.req(options.path || this.defPath, {
       ...this.defOptions,
       ...options,
     });
 
     (({ method } = options) => {
-      if (method && method != "GET") this.render(json);
+      if (method && method != "GET") this.render(res);
     })();
 
-    return json;
+    return res;
   }
 
   /** @param {ReqOptions} options */
@@ -80,7 +80,9 @@ export class Handler {
     }
 
     const contentType = res.headers.get("content-type");
-    if (contentType.includes("json")) {
+    if (!contentType) {
+      return;
+    } else if (contentType.includes("json")) {
       return await res.json();
     } else if (contentType.includes("text")) {
       return await res.text();
