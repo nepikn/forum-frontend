@@ -44,7 +44,7 @@ async function CommentNav({
   const next = document.createElement("button");
   const length = await handler.comment.getLength();
   const pageFloor = 1;
-  const pageCeil = Math.ceil(length / commentPerPage);
+  const pageCeil = Math.max(pageFloor, Math.ceil(length / commentPerPage));
 
   prev.onclick = () => navigate(Math.max(pageFloor, page - 1));
   next.onclick = () => navigate(Math.min(pageCeil, page + 1));
@@ -87,6 +87,13 @@ async function CommentNav({
 
 async function List({ state: { userId, page, commentPerPage }, handler }) {
   const comments = await handler.comment.get({ page, commentPerPage });
+  if (!comments) {
+    const p = document.createElement("p");
+    p.textContent = "no comments :(";
+    p.style.textAlign = "center";
+    return p;
+  }
+
   const list = document.createElement("ul");
   list.style.display = "grid";
   list.style.gap = ".5rem";
