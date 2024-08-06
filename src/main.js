@@ -24,7 +24,13 @@ async function render() {
     userId
       ? Editor({
           state: { userName },
-          handler: { submit: (form) => comment.add(form) },
+          handler: {
+            submit: async (form) => {
+              await comment.add(form);
+
+              window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
+            },
+          },
         })
       : "",
   ]);
