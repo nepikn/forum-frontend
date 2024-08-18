@@ -11,6 +11,7 @@
 - [主要技術](#主要技術)
 - [安裝](#安裝)
 - [學習內容](#學習內容)
+- [展望](#展望)
 - [素材](#素材)
 
 ## 預期功能
@@ -67,6 +68,7 @@ rm forum-frontend/ -fr
 
 ## 學習內容
 
+- [學習歷程 - Apache](https://hackmd.io/o_t2Xo_tR-m5VU2Yd2xFsg)
 - [學習歷程 - AWS](https://hackmd.io/FGAWhBuJTb2dt3ABaXIr9A?view)
 - 依據 HTTP 請求的方法判斷是否渲染
 
@@ -144,6 +146,11 @@ export default defineConfig(({ mode }) => {
   };
 });
 ```
+
+## 展望
+
+- 以 `RequestInit.body` 傳送 `POST`、`PUT` 請求
+- 以 React Router 管理前端路由
 
 ## 素材
 
