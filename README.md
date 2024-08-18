@@ -2,7 +2,9 @@
 
 前後端分離、部署於 AWS EC2、在 Cloudflare 註冊域名的 MPA
 
-> [後端說明](https://github.com/nepikn/forum-backend?tab=readme-ov-file#readme-ov-file)
+> [Node.js 後端說明](https://github.com/nepikn/forum-backend-js?tab=readme-ov-file#readme-ov-file)
+
+> [另有 PHP 語法的後端](https://github.com/nepikn/forum-backend?tab=readme-ov-file#readme-ov-file)
 
 - [預期功能](#預期功能)
 - [展示](#展示)
@@ -22,7 +24,7 @@
 
 ## 展示
 
-[線上部署](https://unconscious.cc/forum/)
+[線上部署](https://unconscious.cc/forum-js/)
 
 | `/forum`                                                                                             | `/forum/auth`                                                                                       |
 | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -33,18 +35,24 @@
 
 - 前端
   - Vite v5
-- 後端
+- Node.js 後端
+  - Express v4
+  - Sequelize v6
+  - MySQL v8
+- PHP 後端
   - PHP v8
   - MySQL v8
 - 部署
-  - AWS EC2
+  - Apache v2
+  - AWS EC2 Debian
   - Cloudflare Registrar
 
 ## 安裝
 
 ```bash
-ssh DESTINATION
-cd /var/www/html/
+dir=/var/www/html/
+read -p "Install to [$dir]: " ans
+cd ${ans:-$dir}
 git clone git@github.com:nepikn/forum-frontend.git
 
 cd forum-frontend/
