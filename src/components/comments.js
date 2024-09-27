@@ -44,7 +44,10 @@ async function CommentNav({
   const next = document.createElement("button");
   const length = await handler.comment.getLength();
   const pageFloor = 1;
-  const pageCeil = Math.max(pageFloor, Math.ceil(length / commentPerPage));
+  const pageCeil = Math.max(
+    pageFloor,
+    Math.ceil(length / commentPerPage),
+  );
 
   prev.onclick = () => navigate(Math.max(pageFloor, page - 1));
   next.onclick = () => navigate(Math.min(pageCeil, page + 1));
@@ -79,14 +82,20 @@ async function CommentNav({
           commentPerPage,
         },
         handler,
-      })
+      }),
     );
     window.scrollTo(0, 0);
   }
 }
 
-async function List({ state: { userId, page, commentPerPage }, handler }) {
-  const comments = await handler.comment.get({ page, commentPerPage });
+async function List({
+  state: { userId, page, commentPerPage },
+  handler,
+}) {
+  const comments = await handler.comment.get({
+    page,
+    commentPerPage,
+  });
   if (!comments) {
     const p = document.createElement("p");
     p.textContent = "no comments :(";
@@ -99,7 +108,9 @@ async function List({ state: { userId, page, commentPerPage }, handler }) {
   list.style.gap = ".5rem";
 
   list.append(
-    ...comments.map((comment) => CommentCard(comment, userId, handler))
+    ...comments.map((comment) =>
+      CommentCard(comment, userId, handler),
+    ),
   );
 
   return list;
@@ -148,13 +159,14 @@ function renderEditor(container, comment) {
   container.replaceChildren(
     Editor({
       state: {
-        val: container.querySelector("[data-content]").textContent,
+        val: container.querySelector("[data-content]")
+          .textContent,
         focus: true,
       },
       handler: {
         submit: (form) => handler.edit(comment.id, form),
       },
-    })
+    }),
   );
 
   function renderNextComment(nextContent) {
@@ -162,10 +174,13 @@ function renderEditor(container, comment) {
       prevComment,
       "[data-content]",
       "textContent",
-      nextContent
+      nextContent,
     );
 
     container.replaceChildren(prevComment);
-    container.scrollIntoView({ behavior: "smooth", block: "center" });
+    container.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   }
 }

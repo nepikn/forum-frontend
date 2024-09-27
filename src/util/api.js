@@ -64,14 +64,14 @@ export class Handler {
               searchParams.append(key, val);
               return searchParams;
             },
-            new URLSearchParams()
+            new URLSearchParams(),
           )}`
         : "";
     })();
 
     const req = new Request(
       `${import.meta.env.VITE_API_URL}${path}${query}`,
-      options
+      options,
     );
 
     const res = await fetch(req);

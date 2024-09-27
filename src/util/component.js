@@ -28,7 +28,7 @@ export default class Component {
         e.preventDefault();
 
         const res = await handler(e.target);
-      }
+      },
     );
   }
 
@@ -38,9 +38,12 @@ export default class Component {
   replaceDescs(tempId, options) {
     this.callDescs(
       `[data-for-temp=${tempId}]`,
-      ...(options.render ?? true
-        ? ["replaceChildren", () => new Component(tempId, options).root]
-        : ["replaceWith", ""])
+      ...((options.render ?? true)
+        ? [
+            "replaceChildren",
+            () => new Component(tempId, options).root,
+          ]
+        : ["replaceWith", ""]),
     );
   }
 
@@ -51,8 +54,10 @@ export default class Component {
   callDescs(selector, method, ...args) {
     this.#iterateDescs(selector, (elem) =>
       elem[method](
-        ...args.map((arg) => (typeof arg == "function" ? arg() : arg))
-      )
+        ...args.map((arg) =>
+          typeof arg == "function" ? arg() : arg,
+        ),
+      ),
     );
   }
 
@@ -68,21 +73,28 @@ export default class Component {
 
     Object.entries(slot.state ?? {}).forEach(([key, vals]) => {
       Object.entries(vals).forEach(([selector, val]) =>
-        this.setDescs(getSelector(key, selector), key, val)
+        this.setDescs(getSelector(key, selector), key, val),
       );
     });
 
-    Object.entries(slot.handler ?? {}).forEach(([type, handlers]) => {
-      Object.entries(handlers).forEach(([id, cb]) =>
-        this.callDescs(`#${id}`, "addEventListener", type, () => (e) => {
-          if (type == "submit") {
-            e.preventDefault();
-          }
+    Object.entries(slot.handler ?? {}).forEach(
+      ([type, handlers]) => {
+        Object.entries(handlers).forEach(([id, cb]) =>
+          this.callDescs(
+            `#${id}`,
+            "addEventListener",
+            type,
+            () => (e) => {
+              if (type == "submit") {
+                e.preventDefault();
+              }
 
-          cb(e.target);
-        })
-      );
-    });
+              cb(e.target);
+            },
+          ),
+        );
+      },
+    );
 
     function getSelector(key, selector) {
       switch (key) {
@@ -100,16 +112,20 @@ export default class Component {
    * @returns {DocumentFragment}
    */
   static Fragment(tempId) {
-    return document.querySelector(`template#${tempId}`).content.cloneNode(true);
+    return document
+      .querySelector(`template#${tempId}`)
+      .content.cloneNode(true);
   }
 }
 
 export function swapDescByTempOf(tempId) {
   const root = this ?? document;
 
-  root.querySelectorAll(`[data-for-temp=${tempId}]`).forEach((elem) => {
-    elem.replaceChildren(FragmentOf(`#${tempId}`));
-  });
+  root
+    .querySelectorAll(`[data-for-temp=${tempId}]`)
+    .forEach((elem) => {
+      elem.replaceChildren(FragmentOf(`#${tempId}`));
+    });
 }
 
 export function removeChildrenOf(selector) {
@@ -120,9 +136,11 @@ export function removeChildrenOf(selector) {
 }
 
 export function setChildrenOf(selector, key, val = true) {
-  (this ?? document).querySelectorAll(selector).forEach((elem) => {
-    elem[key] = val;
-  });
+  (this ?? document)
+    .querySelectorAll(selector)
+    .forEach((elem) => {
+      elem[key] = val;
+    });
 }
 
 /**
@@ -136,7 +154,7 @@ export function FragmentOf(selectorStrOrObj) {
       ? Object.entries(selectorStrOrObj).reduce(
           (prevSelector, [name, value]) =>
             `${prevSelector}[data-${name}=${value}]`,
-          ""
+          "",
         )
       : selectorStrOrObj;
 

@@ -12,7 +12,9 @@ export default class Comment extends Handler {
   }
 
   add(contentOrForm) {
-    return super.handlePost({ queries: { content: contentOrForm } });
+    return super.handlePost({
+      queries: { content: contentOrForm },
+    });
   }
 
   get(queries = {}) {

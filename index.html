@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <script type="module" src="/src/main.js"></script>
     <title></title>
   </head>
@@ -24,7 +27,9 @@
         data-user="true"
         class="text-sm items-center grid grid-cols-2 gap-4 text-nowrap"
       >
-        <p class="text-lg">Good day!<span class="userName"></span></p>
+        <p class="text-lg">
+          Good day!<span class="userName"></span>
+        </p>
         <button class="logout success">Log out</button>
         <form
           id="editName"
@@ -53,10 +58,15 @@
           <figure
             class="grid grid-flow-col grid-cols-subgrid items-center col-span-2"
           >
-            <picture class="h-full"
-              ><div class="h-full aspect-square rounded-full border"></div
-            ></picture>
-            <figcaption data-commentator class="px-2"></figcaption>
+            <picture class="h-full">
+              <div
+                class="h-full aspect-square rounded-full border"
+              ></div>
+            </picture>
+            <figcaption
+              data-commentator
+              class="px-2"
+            ></figcaption>
           </figure>
           <div class="mx-auto border-[1px]"></div>
           <p data-content class="py-1 whitespace-pre-wrap"></p>
@@ -69,7 +79,9 @@
   <template id="userMenu">
     <ul class="userMenu flex gap-4">
       <li>
-        <button id="renderEditor" type="button" class="primary">Edit</button>
+        <button id="renderEditor" type="button" class="primary">
+          Edit
+        </button>
       </li>
       <li>
         <form id="delComment">

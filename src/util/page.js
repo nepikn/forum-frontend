@@ -8,5 +8,6 @@ export function replaceTitle(elem, src) {
     .map((s) => s[0].toUpperCase() + s.slice(1))
     .join(" ");
 
-  elem.closest("html").querySelector("title").textContent = appTitle;
+  elem.closest("html").querySelector("title").textContent =
+    appTitle;
 }

@@ -23,27 +23,32 @@ async function render() {
 
     content.querySelector("[name=name]").value = name;
     content.querySelector("#name").textContent = name;
-    content.querySelector("[data-authState]").textContent = (() => {
-      switch (authState) {
-        case "signUp":
-          return "Please create your password";
-        case "signIn":
-          return "Signing in ... Please enter your password";
-        case "err":
-          return "Wrong password ... Please retry";
-        default:
-          throw new Error("");
-      }
-    })();
+    content.querySelector("[data-authState]").textContent =
+      (() => {
+        switch (authState) {
+          case "signUp":
+            return "Please create your password";
+          case "signIn":
+            return "Signing in ... Please enter your password";
+          case "err":
+            return "Wrong password ... Please retry";
+          default:
+            throw new Error("");
+        }
+      })();
 
     handleSubmitOf.call(content, "switch", user.logOut);
     handleSubmitOf(authForm, (form) =>
-      authState == "signUp" ? user.signUp(form) : user.signIn(form)
+      authState == "signUp"
+        ? user.signUp(form)
+        : user.signIn(form),
     );
   } else {
     handleSubmitOf(authForm, (form) => user.setSessionName(form));
   }
 
-  authForm.querySelector(".temp-userName").replaceChildren(content);
+  authForm
+    .querySelector(".temp-userName")
+    .replaceChildren(content);
   authForm.querySelector("[autofocus]")?.focus();
 }

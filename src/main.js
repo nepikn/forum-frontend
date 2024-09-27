@@ -28,7 +28,11 @@ async function render() {
             submit: async (form) => {
               await comment.add(form);
 
-              window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
+              window.scrollTo({
+                behavior: "smooth",
+                left: 0,
+                top: 0,
+              });
             },
           },
         })

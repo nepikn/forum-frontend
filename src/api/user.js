@@ -12,7 +12,9 @@ export default class User extends Handler {
   }
 
   signUp = (passwdOrForm) => {
-    return super.handlePost({ queries: { passwd: passwdOrForm } });
+    return super.handlePost({
+      queries: { passwd: passwdOrForm },
+    });
   };
 
   get(key = "", queries = {}) {
