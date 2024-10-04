@@ -1,7 +1,7 @@
 import User from "../src/api/user";
+import "../src/index.css";
 import { FragmentOf } from "../src/util/component";
 import { handleSubmitOf } from "../src/util/form";
-import "../src/index.css";
 
 const user = new User(render);
 const authForm = document.querySelector("#auth");
@@ -12,7 +12,7 @@ async function render() {
   const { id, name } = await user.get();
 
   if (id != null) {
-    window.location.replace(import.meta.env.VITE_BASE + "/");
+    window.location.replace("/");
     return;
   }
 

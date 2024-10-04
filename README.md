@@ -25,7 +25,7 @@
 
 ## 展示
 
-[線上部署](https://unconscious.cc/forum-js/)
+[線上部署](https://forum.unconscious.cc)
 
 | `/forum`                                                                                             | `/forum/auth`                                                                                       |
 | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -119,33 +119,13 @@ export default class Comment extends Handler {
 
 - 不同模式不同打包配置
 
-```bash
-# .env
-VITE_BASE=''
-```
-
-```bash
-# .env.production
-VITE_BASE=/forum
-```
-
 ```javascript
 // vite.config.js
 export default defineConfig(({ mode }) => {
   const cwd = process.cwd();
   const env = loadEnv(mode, cwd);
 
-  return {
-    base: env.VITE_BASE,
-    build: {
-      rollupOptions: {
-        input: {
-          main: path.resolve(cwd, "index.html"),
-          auth: path.resolve(cwd, "auth/index.html"),
-        },
-      },
-    },
-  };
+  // ...
 });
 ```
 

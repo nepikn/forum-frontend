@@ -6,7 +6,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, cwd);
 
   return {
-    base: env.VITE_BASE,
     build: {
       rollupOptions: {
         input: {

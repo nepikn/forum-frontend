@@ -10,8 +10,7 @@ export default async function Nav({
   nav.querySelector(".userName").textContent = userName;
   if (userName == null) {
     nav.querySelector("[data-user=true]").remove();
-    nav.querySelector("#auth").href =
-      (import.meta.env.VITE_BASE ?? "") + "/auth/";
+    nav.querySelector("#auth").href = "/auth/";
   } else {
     nav.querySelector("[data-user=false]").remove();
     nav.querySelector(".logout").onclick = user.logOut;
